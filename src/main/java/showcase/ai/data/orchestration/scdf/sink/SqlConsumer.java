@@ -2,7 +2,6 @@ package showcase.ai.data.orchestration.scdf.sink;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import showcase.ai.data.orchestration.scdf.properties.SqlConsumerProperties;
