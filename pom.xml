@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.vmware</groupId>
-	<artifactId>tanzu-rabbitmq-event-streaming-showcase-parent</artifactId>
+	<artifactId>ai-data-orchestration-with-scdf-showcase</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0</version>
-	<name>tanzu-rabbitmq-event-streaming-showcase-parent</name>
+	<name>ai-data-orchestration-with-scdf-showcase</name>
 
 	<modules>
 		<module>applications/sinks/postgres-sink</module>

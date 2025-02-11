@@ -12,9 +12,9 @@ docker run --name psql -it --rm \
 create schema customer;
 
 create table customer.customers(
+email text NOT NULL,
 first_nm text NOT NULL,
 last_nm text  NOT NULL,
-email text NOT NULL,
 phone text ,
 address text NOT NULL,
 city text ,

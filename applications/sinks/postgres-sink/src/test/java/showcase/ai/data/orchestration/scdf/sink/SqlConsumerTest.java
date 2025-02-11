@@ -36,13 +36,13 @@ class SqlConsumerTest {
     static void beforeAll() {
         System.setProperty(
                 "sql.consumer.sql",
-                "insert into customers(ID,NAME) values(:id,:firstName)");
+                "insert into customers(email,first_name) values(:email,:firstName)");
     }
 
     @BeforeEach
     void setUp() {
         final String createSql = """
-                CREATE TABLE IF NOT EXISTS customers(ID INT PRIMARY KEY, NAME VARCHAR(255));
+                CREATE TABLE IF NOT EXISTS customers(email VARCHAR(255) PRIMARY KEY, first_name VARCHAR(255));
                 """;
         jdbcTemplate.execute(createSql);
     }
@@ -50,17 +50,17 @@ class SqlConsumerTest {
     @Test
     void accept() throws JsonProcessingException {
         String payload = """
-                { "id" : "${id}" ,  "firstName" : "${firstName}" }
+                { "email" : "${email}" ,  "firstName" : "${firstName}" }
                 """;
 
         payload = Text.format(payload, JavaBean.toMap(customer));
         subject.accept(payload);
 
         String query = """
-                select NAME from customers where ID = ?
+                select first_name from customers where email = ?
                 """;
 
-        var name = jdbcTemplate.queryForObject(query, String.class, customer.getId());
+        var name = jdbcTemplate.queryForObject(query, String.class, customer.getEmail());
 
         assertThat(name).isEqualTo(customer.getFirstName());
 

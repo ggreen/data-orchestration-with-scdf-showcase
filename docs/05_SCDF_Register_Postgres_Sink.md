@@ -56,10 +56,31 @@ zip text NOT NULL,
 
 Reimport applications
 
+
+Build application
+
 ```shell
-customer-database-api=http --port=8084 --path-pattern=customers | jdbc --columns=first_nm:firstName,last_nm:lastName,email,phone,address,city,state,zip --table-name=customer.customers
+mvn package
 ```
 
+```shell
+cp applications/sinks/postgres-sink/target/postgres-sink-0.0.1-SNAPSHOT.jar /tmp
+```
+
+
+```shell
+open http://localhost:9393/dashboard
+```
+
+
+```shell
+sink.postgres=file:///tmp/postgres-sink-0.0.1-SNAPSHOT.jar
+sink.postgres.bootVersion=3
+```
+
+```shell
+customer-postgres-api=http --port=8090 --path-pattern=customers | postgres
+```
 
 Create Stream
 
@@ -67,13 +88,13 @@ Deploy the team
 
 
 ```properties
+
 app.http.path-pattern=customers
-app.http.server.port=8084
-app.jdbc.consumer.columns=first_nm:firstName,last_nm:lastName,email,phone,address,city,state,zip
-app.jdbc.consumer.table-name=customer.customers
-app.jdbc.spring.datasource.username=postgres
-app.jdbc.spring.datasource.url="jdbc:postgresql://localhost/postgres"
-app.jdbc.spring.datasource.driverClassName=org.postgresql.Driver
+app.http.server.port=8090
+app.postgres.sql.consumer.sql="insert into customer.customers(email,first_nm,last_nm,phone,address,city,state,zip) values (:email,:firstName,:lastName,:contact.phone, :location.address,:location.city,:location.state,:location.zip) on CONFLICT (email) DO UPDATE SET first_nm = :firstName, last_nm = :lastName,  phone = :contact.phone, address = :location.address, city = :location.city, state = :location.state, zip = :location.zip"
+app.postgres.spring.datasource.username=postgres
+app.postgres.spring.datasource.url="jdbc:postgresql://localhost/postgres"
+app.postgres.spring.datasource.driverClassName=org.postgresql.Driver
 ```
 
 
@@ -82,7 +103,7 @@ app.jdbc.spring.datasource.driverClassName=org.postgresql.Driver
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:8084/customers' \
+  'http://localhost:8090/customers' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -123,7 +144,6 @@ curl -X 'POST' \
 ```
 ```sql
 select * from customer.customers;
-
 ```
 ```shell
 curl -X 'POST' \
