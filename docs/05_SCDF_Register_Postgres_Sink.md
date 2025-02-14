@@ -4,6 +4,11 @@
 docker network create data-orchestration
 ```
 
+- Run RabbitMQ (user/bitnami)
+```shell
+docker run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:4.0.4 
+```
+
 ```shell
 docker run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
 ```
@@ -91,7 +96,7 @@ Deploy the team
 
 app.http.path-pattern=customers
 app.http.server.port=8090
-app.postgres.sql.consumer.sql="insert into customer.customers(email,first_nm,last_nm,phone,address,city,state,zip) values (:email,:firstName,:lastName,:contact.phone, :location.address,:location.city,:location.state,:location.zip) on CONFLICT (email) DO UPDATE SET first_nm = :firstName, last_nm = :lastName,  phone = :contact.phone, address = :location.address, city = :location.city, state = :location.state, zip = :location.zip"
+app.postgres.sql.consumer.sql="insert into customer.customers(email,first_nm,last_nm,phone,address,city,state,zip) values (:email,:firstName,:lastName,:phone, :address,:city,:state,:zip) on CONFLICT (email) DO UPDATE SET first_nm = :firstName, last_nm = :lastName,  phone = :phone, address = :address, city = :city, state = :state, zip = :zip"
 app.postgres.spring.datasource.username=postgres
 app.postgres.spring.datasource.url="jdbc:postgresql://localhost/postgres"
 app.postgres.spring.datasource.driverClassName=org.postgresql.Driver
@@ -107,9 +112,9 @@ curl -X 'POST' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
+  "email" : "email@email",
   "firstName" : "Josiah",
   "lastName" : "Imani",
-  "email" : "email@email",
   "phone" : "555-555-5555",
   "address" : "12 Straight St",
   "city" : "gold",
@@ -119,6 +124,7 @@ curl -X 'POST' \
 ```
 
 
+In psql 
 
 ```sql
 select * from customer.customers;
@@ -128,7 +134,7 @@ select * from customer.customers;
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:8084/customers' \
+  'http://localhost:8090/customers' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -145,16 +151,20 @@ curl -X 'POST' \
 ```sql
 select * from customer.customers;
 ```
+
+
+Update Jill's phone
+
 ```shell
 curl -X 'POST' \
-  'http://localhost:8084/customers' \
+  'http://localhost:8090/customers' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
   "firstName" : "Jill",
   "lastName" : "Smith",
   "email" : "jsmith@email",
-  "phone" : "155-555-5555",
+  "phone" : "222-222-2222",
   "address" : "2 Straight St",
   "city" : "gold",
   "state": "ny",
@@ -169,7 +179,7 @@ select * from customer.customers;
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:8084/customers' \
+  'http://localhost:8090/customers' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -188,37 +198,21 @@ curl -X 'POST' \
 select * from customer.customers;
 
 ```
-Change Jill Smith Phone
+Change Jack Smith Information
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:8084/customers' \
+  'http://localhost:8090/customers' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
-  "firstName" : "Jill",
+  "firstName" : "Jack",
   "lastName" : "Smith",
-  "email" : "jsmith@email",
-  "phone" : "222-555-5555",
-  "address" : "2 Straight St",
-  "city" : "gold",
+  "email" : "jacksmith@email",
+  "phone" : "255-555-5555",
+  "address" : "333 Straight St",
+  "city" : "silver",
   "state": "ny",
-  "zip": "55555"
+  "zip": "23232"
 }'
 ```
-
-Phone number not changed
-```sql
-select * from customer.customers;
-
-```
-
-
-Logs
-
-```text
-ERROR: duplicate key value violates unique constraint "customers_pkey"
-  Detail: Key (email)=(jsmith@email) already exists.
-```
-
-
