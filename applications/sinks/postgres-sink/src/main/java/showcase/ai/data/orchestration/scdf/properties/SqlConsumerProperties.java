@@ -14,12 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SqlConsumerProperties {
 
     /**
-     * Sql to execute.
-     *
-     * Note the Json payload is passed as SQL parameters
-     * based on field names.
-     *
-     * Ex: insert into customers(ID,NAME) values(:id,:firstName)
+     * Sql to execute. Note the Json payload is passed as SQL parameters based on field names.
      */
     private String sql;
 }
