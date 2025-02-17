@@ -9,9 +9,9 @@
 	<packaging>pom</packaging>
 	<version>1.0</version>
 	<name>ai-data-orchestration-with-scdf-showcase</name>
-
 	<modules>
 		<module>applications/sinks/postgres-sink</module>
+		<module>applications/processors/postgres-processor</module>
 	</modules>
 	<build>
 		<pluginManagement>

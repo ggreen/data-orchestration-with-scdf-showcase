@@ -1,4 +1,4 @@
-package showcase.ai.data.orchestration.scdf.sink;
+package showcase.ai.data.orchestration.scdf.processors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
