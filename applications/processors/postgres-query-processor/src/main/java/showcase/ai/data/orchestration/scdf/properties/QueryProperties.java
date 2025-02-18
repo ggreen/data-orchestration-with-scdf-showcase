@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class QueryProperties {
 
     /**
-     * Sql to execute. Note the Json payload is passed as SQL parameters based on field names.
+     * Query Sql statement ex: select "1" as id
      */
     private String sql;
 }

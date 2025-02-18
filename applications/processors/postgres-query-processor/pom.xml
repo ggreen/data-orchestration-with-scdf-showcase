@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>showcase.ai.data.orchestration</groupId>
-	<artifactId>postgres-processor</artifactId>
+	<artifactId>postgres-query-processor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>postgres-processor</name>
 	<description>postgres-processor</description>

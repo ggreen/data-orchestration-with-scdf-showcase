@@ -16,10 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @SpringJUnitConfig
 @SpringRabbitTest
-class QueryProcessorFunctionTest {
+class QueryFunctionProcessorTest {
 
     @Autowired
-    private QueryProcessorFunction subject;
+    private QueryFunctionProcessor subject;
 
     @Autowired
     private ObjectMapper objectMapper;

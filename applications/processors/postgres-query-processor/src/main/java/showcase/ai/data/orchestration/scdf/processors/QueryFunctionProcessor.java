@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class QueryProcessorFunction implements Function<String,String> {
+public class QueryFunctionProcessor implements Function<String,String> {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final ObjectMapper objectMapper;

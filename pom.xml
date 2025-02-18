@@ -11,7 +11,7 @@
 	<name>ai-data-orchestration-with-scdf-showcase</name>
 	<modules>
 		<module>applications/sinks/postgres-sink</module>
-		<module>applications/processors/postgres-processor</module>
+		<module>applications/processors/postgres-query-processor</module>
 	</modules>
 	<build>
 		<pluginManagement>
