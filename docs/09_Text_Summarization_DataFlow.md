@@ -22,7 +22,7 @@ docker run --rm --name postgresml \
 ```shell
 docker run --name psql -it --rm \
 --network data-orchestration \
-    bitnami/postgresql:latest psql -h postgresml  -U postgres
+    bitnami/postgresql:latest psql -h postgresml  -U postgres -d postgresml
 ```
 
 
@@ -31,10 +31,11 @@ docker run --name psql -it --rm \
 create schema customer;
 
 create table customer.feedback(
-customer_id text NOT NULL,
+feed_id text NOT NULL,
+email text NOT NULL,
 user_feedback text NOT NULL,
 summary text NOT NULL,
- PRIMARY KEY (customer_id)
+ PRIMARY KEY (feed_id)
 );
 ```
 
@@ -73,14 +74,19 @@ processor.postgres-query.metadata=file:///Users/Projects/solutions/ai-ml/dev/ai-
 processor.postgres-query.bootVersion=3
 ```
 
+::json->>'summary_text'
+
+select pg_typeof(results::json)
 
 ```sql
-SELECT pgml.transform( task => '{ "task": "summarization", "model": "google/pegasus-xsum"}'::JSONB, inputs => array[ 'Paris is the capital and most populous city of France, with an estimated population of 2,175,601 residents as of 2018, in an area of more than 105 square kilometres (41 square miles). The City of Paris is the centre and seat of government of the region and province of Île-de-France, or Paris Region, which has an estimated population of 12,174,880, or about 18 percent of the population of France as of 2017.']);
+SELECT pg_typeof(pgml.transform( task => '{ "task": "summarization", "model": "google/pegasus-xsum"}'::JSONB, inputs => array[ 'Paris is the capital and most populous city of France, with an estimated population of 2,175,601 residents as of 2018, in an area of more than 105 square kilometres (41 square miles). The City of Paris is the centre and seat of government of the region and province of Île-de-France, or Paris Region, which has an estimated population of 12,174,880, or about 18 percent of the population of France as of 2017.'])::json->0->>'summary_text') as summary_text;
+
+
+SELECT pgml.transform( task => '{ "task": "summarization", "model": "google/pegasus-xsum"}'::JSONB, inputs => array[ 'Paris is the capital and most populous city of France, with an estimated population of 2,175,601 residents as of 2018, in an area of more than 105 square kilometres (41 square miles). The City of Paris is the centre and seat of government of the region and province of Île-de-France, or Paris Region, which has an estimated population of 12,174,880, or about 18 percent of the population of France as of 2017.'])::json->0->>'summary_text' as summary_text;
 ```
 
-
 ```shell
-http-text-summary=http | postgres-query | log
+http-text-summary=http | postgres-query | postgres
 ```
 
 
@@ -91,13 +97,16 @@ app.http.path-pattern=feedback
 app.http.server.port=8093
 
 app.postgres.spring.datasource.username=postgres
-app.postgres.spring.datasource.url="jdbc:postgresql://localhost/postgresml"
+app.postgres.spring.datasource.url="jdbc:postgresql://localhost:6432/postgresml"
+app.postgres.spring.config.import=optional:file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/sinks/postgres-sink/src/main/resources/postgres-text-summarization.yml
 app.postgres.spring.datasource.driverClassName=org.postgresql.Driver
+app.postgres.spring.datasource.hikari.max-lifetime=600000
 
 app.postgres-query.spring.datasource.username=postgres
 app.postgres-query.spring.datasource.url="jdbc:postgresql://localhost:6432/postgresml"
 app.postgres-query.spring.datasource.driverClassName=org.postgresql.Driver
 app.postgres-query.spring.config.import=optional:file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-query-processor/src/main/resources/text-summarization.yml
+app.postgres-query.spring.datasource.hikari.max-lifetime=600000
 ```
 
 
@@ -107,9 +116,9 @@ curl -X 'POST' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
-  "id" : "jmatthews@email",
-  "feedback" : "Paris is the capital and most populous city of France, with an estimated population of 2,175,601 residents as of 2018, in an area of more than 105 square kilometres (41 square miles). The City of Paris is the centre and seat of government of the region and province of Île-de-France, or Paris Region, which has an estimated population of 12,174,880, or about 18 percent of the population of France as of 2017.",
-  "zip": "55555"
+  "id" : "F001",
+  "email" : "jmatthews@email",
+  "feedback" : "Paris is the capital and most populous city of France, with an estimated population of 2,175,601 residents as of 2018, in an area of more than 105 square kilometres (41 square miles). The City of Paris is the centre and seat of government of the region and province of Île-de-France, or Paris Region, which has an estimated population of 12,174,880, or about 18 percent of the population of France as of 2017."
 }'
 ```
 
@@ -117,6 +126,6 @@ curl -X 'POST' \
 In psql
 
 ```sql
-select * from customer.customers;
+select * from customer.feedback;
 
 ```

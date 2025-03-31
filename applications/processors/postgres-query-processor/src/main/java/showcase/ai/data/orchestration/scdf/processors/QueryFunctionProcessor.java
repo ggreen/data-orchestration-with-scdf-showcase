@@ -33,7 +33,7 @@ public class QueryFunctionProcessor implements Function<String,String> {
 
         var outMap = namedParameterJdbcTemplate.queryForMap(queryProperties.getSql(),
                 inputMap);
-        log.info("SQL: {}, results: {}",queryProperties,outMap);
+        log.info("SQL: {}, class:{}, results: {}",queryProperties,outMap.getClass(),outMap);
 
         if(outMap.size() == 1 && outMap.containsKey("payload")) {
             var outPayload = String.valueOf(outMap.get("payload"));
@@ -45,4 +45,8 @@ public class QueryFunctionProcessor implements Function<String,String> {
         log.info("Returning: {}",out);
         return out;
     }
+
+
+
+
 }
