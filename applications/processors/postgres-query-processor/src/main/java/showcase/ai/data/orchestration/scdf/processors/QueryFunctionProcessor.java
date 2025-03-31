@@ -29,6 +29,8 @@ public class QueryFunctionProcessor implements Function<String,String> {
         var inputMap  = objectMapper.readValue(payload, Map.class);
         inputMap.put("payload",payload);
 
+        log.info("SQL: {}, input: {}",queryProperties,inputMap);
+
         var outMap = namedParameterJdbcTemplate.queryForMap(queryProperties.getSql(),
                 inputMap);
         log.info("SQL: {}, results: {}",queryProperties,outMap);

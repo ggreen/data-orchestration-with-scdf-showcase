@@ -58,9 +58,9 @@ zip text NOT NULL,
 ```
 ==================================
 
-Register
+Register Apps
 
-```shell
+```properties
 sink.postgres=file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/sinks/postgres-sink/target/postgres-sink-0.0.1-SNAPSHOT.jar
 sink.postgres.metadata=file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/sinks/postgres-sink/target/postgres-sink-0.0.1-SNAPSHOT-metadata.jar
 sink.postgres.bootVersion=3
@@ -70,6 +70,7 @@ processor.postgres-query.bootVersion=3
 
 ```
 
+Data Flow
 
 ```shell
 http-postgres-processor=http | postgres-query --sql="select :email as email,initcap(:firstname) as firstname,initcap(:lastname) as lastname,:phone as phone,:address as address,:city as city,:state as state,:zip as zip" | postgres --sql="insert into customer.customers(email,first_nm,last_nm,phone,address,city,state,zip) values (:email,:firstname,:lastname,:phone, :address,:city,:state,:zip) on CONFLICT (email) DO UPDATE SET first_nm = :firstname, last_nm = :lastname,  phone = :phone, address = :address, city = :city, state = :state, zip = :zip"
