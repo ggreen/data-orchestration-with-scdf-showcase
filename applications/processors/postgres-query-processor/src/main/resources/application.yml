@@ -1,0 +1,17 @@
+server:
+  port: 0
+spring:
+  application:
+    name: postgres-query-processor
+  jpa:
+    show-sql: true
+  cloud:
+    function:
+      definition: queryFunctionProcessor
+    stream:
+      function:
+        bindings:
+          queryFunctionProcessor-in-0: input
+          queryFunctionProcessor-out-0: output
+      binder:
+        connection-name-prefix: ${spring.application.name}

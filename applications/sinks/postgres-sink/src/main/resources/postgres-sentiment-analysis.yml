@@ -1,0 +1,26 @@
+sql:
+  consumer:
+    sql: >
+      insert into customer.feedback
+        (
+          feed_id,
+          email,
+          user_feedback,
+          summary, 
+          sentiment, 
+          score) 
+      values (
+          :id,
+          :email,
+          :feedback,
+          :summary,
+          :sentiment,
+          cast(:score as numeric)
+          ) 
+        on CONFLICT (feed_id) 
+      DO UPDATE SET 
+          email = :email, 
+          user_feedback = :feedback,  
+          summary = :summary,
+          sentiment = :sentiment,
+          score = cast(:score as numeric)
