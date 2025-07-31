@@ -28,7 +28,10 @@ class EmbeddingSimilarityFunctionTest {
     @Mock
     private VectorStore vectorStore;
     private EmbeddingSimilarityFunction subject;
-    private static final EmbeddingSimilarityProperties properties = new EmbeddingSimilarityProperties(4);
+    private static final EmbeddingSimilarityProperties properties = EmbeddingSimilarityProperties.builder()
+            .topK(4)
+            .similarityThreshold(0.95)
+            .build();
 
     @BeforeEach
     void setUp() {

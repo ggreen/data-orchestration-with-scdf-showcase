@@ -17,4 +17,9 @@ public class EmbeddingSimilarityProperties {
      * top K most similar vectors to a query vector in a vector database
      */
     private int topK;
+
+    /**
+     * The lower bound of the similarity score.
+     */
+    private double similarityThreshold;
 }

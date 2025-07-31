@@ -38,6 +38,7 @@ public class EmbeddingSimilarityFunction implements Function<String,List<Documen
 
         return vectorStore.similaritySearch(SearchRequest.builder().query(payload)
                 .topK(properties.getTopK())
+                        .similarityThreshold(properties.getSimilarityThreshold())
                 .filterExpression(
                         new FilterExpressionBuilder()
                                 .ne("id",getId(payload)).build())

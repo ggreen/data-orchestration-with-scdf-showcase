@@ -40,7 +40,7 @@ create table customer.customer_similarity(
     customer_id text NOT NULL,
     email_similarity text NOT NULL,
     score numeric NOT NULL,
- PRIMARY KEY (customer_id)
+ PRIMARY KEY (customer_id,email_similarity)
 );
 ```
 
@@ -77,62 +77,29 @@ sink.postgres.bootVersion=3
 processor.postgres-query=file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-query-processor/target/postgres-query-processor-0.0.1-SNAPSHOT.jar
 processor.postgres-query.metadata=file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-query-processor/target/postgres-query-processor-0.0.1-SNAPSHOT-metadata.jar
 processor.postgres-query.bootVersion=3
-
 processor.postgres-embedding-similarity=file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-embedding-similarity-processor/target/postgres-embedding-similarity-processor-0.0.1-SNAPSHOT.jar
 processor.postgres-embedding-similarity.metadata=file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-embedding-similarity-processor/target/postgres-embedding-similarity-processor-0.0.1-SNAPSHOT-metadata.jar
 processor.postgres-embedding-similarity.bootVersion=3
 ```
 
-::json->>'summary_text'
 
-select pg_typeof(results::json)
-
-```sql
-SELECT pg_typeof(pgml.transform( task => '{ "task": "summarization", "model": "google/pegasus-xsum"}'::JSONB, inputs => array[ 'Paris is the capital and most populous city of France, with an estimated population of 2,175,601 residents as of 2018, in an area of more than 105 square kilometres (41 square miles). The City of Paris is the centre and seat of government of the region and province of Île-de-France, or Paris Region, which has an estimated population of 12,174,880, or about 18 percent of the population of France as of 2017.'])::json->0->>'summary_text') as summary_text;
-
-
-SELECT pgml.transform( task => '{ "task": "summarization", "model": "google/pegasus-xsum"}'::JSONB, inputs => array[ 'Paris is the capital and most populous city of France, with an estimated population of 2,175,601 residents as of 2018, in an area of more than 105 square kilometres (41 square miles). The City of Paris is the centre and seat of government of the region and province of Île-de-France, or Paris Region, which has an estimated population of 12,174,880, or about 18 percent of the population of France as of 2017.'])::json->0->>'summary_text' as summary_text;
-```
 
 ```shell
-SELECT
-        positivity::json->0->>'label' as label,
-        positivity::json->0->>'score' as score,
-        (CASE
-        WHEN positivity::json->0->>'label' = 'NEGATIVE' THEN -1
-        WHEN positivity::json->0->>'label' = 'POSITIVE' THEN 1
-        ELSE
-        0
-        END) as sentiment
-        from (SELECT pgml.transform(
-        task   => 'text-classification',
-        inputs => ARRAY[
-        'Why is the wait SO LONG!' ]
-        ) as positivity) text_classification;
-```
-
-```shell
-http-text-sentiment=http | summarize: postgres-query | sentiment: postgres-query | postgres
+http-customer-similarity=http | postgres-embedding-similarity | postgres
 ```
 
 
 Deploy
 
 ```properties
-app.http.path-pattern=feedback
-app.http.server.port=8094
+app.http.path-pattern=customers
+app.http.server.port=8095
 
-app.summarize.spring.datasource.username=postgres
-app.summarize.spring.datasource.url="jdbc:postgresql://localhost:6432/postgresml"
-app.summarize.spring.datasource.driverClassName=org.postgresql.Driver
-app.summarize.spring.config.import=optional:file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-query-processor/src/main/resources/text-summarization.yml
-app.summarize.spring.datasource.hikari.max-lifetime=600000
-
-app.sentiment.spring.datasource.username=postgres
-app.sentiment.spring.datasource.url="jdbc:postgresql://localhost:6432/postgresml"
-app.sentiment.spring.datasource.driverClassName=org.postgresql.Driver
-app.sentiment.spring.config.import=optional:file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-query-processor/src/main/resources/sentiment-analysis.yml
-app.sentiment.spring.datasource.hikari.max-lifetime=600000
+app.postgres-embedding-similarity.spring.datasource.username=postgres
+app.postgres-embedding-similarity.spring.datasource.url="jdbc:postgresql://localhost:6432/postgresml"
+app.postgres-embedding-similarity.spring.datasource.driverClassName=org.postgresql.Driver
+app.postgres-embedding-similarity.spring.config.import=optional:file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-query-processor/src/main/resources/text-summarization.yml
+app.postgres-embedding-similarity.spring.datasource.hikari.max-lifetime=600000
 
 
 app.postgres.spring.datasource.username=postgres
@@ -145,7 +112,7 @@ app.postgres.spring.datasource.hikari.max-lifetime=600000
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:8094/feedback' \
+  'http://localhost:8095/customers' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
