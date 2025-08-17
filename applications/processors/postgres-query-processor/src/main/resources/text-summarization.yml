@@ -1,0 +1,8 @@
+query:
+  processor:
+    sql: >
+      SELECT 
+        :id as id,
+        :email as email,
+        :feedback as feedback,
+        pgml.transform( task => '{ "task": "summarization", "model": "google/pegasus-xsum"}'::JSONB, inputs => array[ :feedback])::json->0->>'summary_text' as summary;

@@ -1,0 +1,20 @@
+query:
+  processor:
+    sql: >
+      SELECT
+        :id as id,
+        :email as email,
+        :feedback as feedback,
+        :summary as summary,
+        positivity::json->0->>'score' as score,
+        (CASE
+        WHEN positivity::json->0->>'label' = 'NEGATIVE' THEN -1
+        WHEN positivity::json->0->>'label' = 'POSITIVE' THEN 1
+        ELSE
+        0
+        END) as sentiment
+        from (SELECT pgml.transform(
+        task   => 'text-classification',
+        inputs => ARRAY[
+        :summary ]
+        ) as positivity) text_classification;

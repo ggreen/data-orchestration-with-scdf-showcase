@@ -1,0 +1,4 @@
+sql:
+  consumer:
+    sql: >
+      insert into customer.feedback(feed_id,email,user_feedback,summary) values (:id,:email,:feedback,:summary) on CONFLICT (feed_id) DO UPDATE SET email = :email, user_feedback = :feedback,  summary = :summary
