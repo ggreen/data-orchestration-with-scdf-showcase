@@ -8,16 +8,16 @@
 		<version>3.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>showcase.ai.data.orchestration</groupId>
+	<groupId>showcase.data.orchestration</groupId>
 	<artifactId>postgres-query-processor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>postgres-processor</name>
 	<description>postgres-processor</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 		<spring-cloud.version>2024.0.1</spring-cloud.version>
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>

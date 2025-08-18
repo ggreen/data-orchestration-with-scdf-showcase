@@ -4,7 +4,7 @@
 
 - Run RabbitMQ (user/bitnami)
 ```shell
-docker run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:4.0.4 
+podman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:latest 
 ```
 
 
@@ -30,7 +30,7 @@ java -jar runtime/scdf/spring-cloud-skipper-server-2.11.5.jar
 
 Start Data Flow Server
 ```shell
-export ROOT_DIR=$PWD
+export ROOT_DIR=$PWD 
 export SPRING_APPLICATION_JSON='{"spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.username":"user","spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.password":"bitnami","spring.rabbitmq.username":"user","spring.rabbitmq.password":"bitnami","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.username" :"user","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.password" :"bitnami"}'
 
 java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
@@ -50,3 +50,16 @@ Import Application
 
 ![import-rabbit-apps.png](images/import-rabbit-apps.png)
 
+
+
+Access CLI
+
+```shell
+java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar
+```
+
+List apps
+
+```shell
+app list
+```
