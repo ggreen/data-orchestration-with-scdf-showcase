@@ -1,4 +1,7 @@
-# Getting Starts
+# Batching Introduction
+
+
+![db-to-cache-batch.png](img/db-to-cache-batch.png)
 
 
 Create podman network

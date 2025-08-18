@@ -1,21 +1,38 @@
+# Intro Streaming
 
+![intro-streaming-http-log.png](img/intro-streaming-http-log.png)
+
+
+## HTTP Log Stream Pipeline
+
+
+Open Dashboard
 
 ```shell
+open http://localhost:9393/dashboard/index.html#/streams/list
+```
+
+
+- Click Create Stream(s)
+- Paste Definition
+
+```scdf
 http-api=http --port=8081 --path-pattern=customers | log
 ```
 
 
-Create Team
+- Create Stream 
+- Deploy the Stream
 
-
-Deploy the team
+![deploy_stream.png](img/deploy_stream.png)
 
 
 ## Testing
 
-Example 
+Example JJSON
 
 ```json
+
 {
   "firstName" : "Josiah",
   "lastName" : "Imani",
@@ -25,9 +42,11 @@ Example
   "city" : "gold",
   "zip": "55555"
 }
+
 ```
 
 
+Post to HTTP source
 
 ```shell
 curl -X 'POST' \
@@ -46,12 +65,37 @@ curl -X 'POST' \
 }'
 ```
 
+View Logs output in dashboard
 
-Upper Case
+-------------
+## Upper Case Stream
+
+ ![http-transform-log.png](img/http-transform-log.png)
+
+Open Dashboard
+
+```shell
+open http://localhost:9393/dashboard/index.html#/streams/list
+```
+
+- Click Create Stream(s)
+- Paste Definition
+
 
 ```shell
 customer-api-uppercase=http --port=8082 --path-pattern=customers/upper | transform --expression=payload.toUpperCase() | log
 ```
+
+- Click Create Stream
+
+![create_stream_http_transform.png](img/create_stream_http_transform.png)
+
+
+- Deploy Stream
+- 
+![deploy_stream.png](img/deploy_stream.png)
+
+### Testing Stream
 
 
 ```shell
@@ -70,3 +114,6 @@ curl -X 'POST' \
   "zip": "55555"
 }'
 ```
+
+
+View Logs output in dashboard
