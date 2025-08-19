@@ -1,3 +1,4 @@
+# Install SCDF
 
 # Start RabbitMQ
 
@@ -51,7 +52,6 @@ Import Application
 ![import-rabbit-apps.png](images/import-rabbit-apps.png)
 
 
-
 Access CLI
 
 ```shell
@@ -62,4 +62,16 @@ List apps
 
 ```shell
 app list
+```
+
+-----------------------
+# Tear Down
+
+- Stop Data Flow Server (Control C)
+- Stop SKipper (Control C)
+
+Stop Services
+
+```shell
+podman rm -f rabbitmq 
 ```

@@ -1,8 +1,8 @@
+# HTTP API to JDBC Stream
 
 ```shell
 podman network create data-orchestration
 ```
-
 
 ## Start RabbitMQ
 
@@ -237,3 +237,23 @@ ERROR: duplicate key value violates unique constraint "customers_pkey"
 ```
 
 
+- Stop Data Flow Server (Control C)
+- Stop SKipper (Control C)
+
+Stop Services
+
+```shell
+podman rm -f rabbitmq postgresml postgresql
+```
+
+-----------------------
+# Tear Down
+
+- Stop Data Flow Server (Control C)
+- Stop SKipper (Control C)
+
+Stop Services
+
+```shell
+podman rm -f rabbitmq postgresql
+```

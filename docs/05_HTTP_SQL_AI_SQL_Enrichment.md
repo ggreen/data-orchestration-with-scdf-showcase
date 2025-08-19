@@ -1,3 +1,5 @@
+# HTTP to SQL AI to Postgres
+
 Run Rabbit
 
 ```shell
@@ -199,4 +201,16 @@ In psql
 
 ```sql
 select * from customer.feedback;
+```
+
+-----------------------
+# Tear Down
+
+- Stop Data Flow Server (Control C)
+- Stop SKipper (Control C)
+
+Stop Services
+
+```shell
+podman rm -f rabbitmq postgresml postgresql
 ```

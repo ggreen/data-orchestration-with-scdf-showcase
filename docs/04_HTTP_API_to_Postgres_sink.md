@@ -1,4 +1,4 @@
-# Prequisite
+# HTTP API to Postgres Stream
 
 ```shell
 podman network create data-orchestration
@@ -253,4 +253,16 @@ curl -X 'POST' \
   "state": "ny",
   "zip": "23232"
 }'
+```
+
+-----------------------
+# Tear Down
+
+- Stop Data Flow Server (Control C)
+- Stop SKipper (Control C)
+
+Stop Services
+
+```shell
+podman rm -f rabbitmq postgresml postgresql
 ```

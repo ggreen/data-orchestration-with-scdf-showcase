@@ -1,4 +1,4 @@
-# Batching Introduction
+# Batching-Task Introduction
 
 
 ![db-to-cache-batch.png](img/db-to-cache-batch.png)
@@ -176,3 +176,14 @@ HGETALL "spring.gemfire.showcase.account.domain.account.Account:1"
 ```
 
 
+-----------------------
+# Tear Down
+
+- Stop Data Flow Server (Control C)
+- Stop SKipper (Control C)
+
+Stop Services
+
+```shell
+podman rm -f rabbitmq valkey postgresql
+```
