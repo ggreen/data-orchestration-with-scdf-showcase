@@ -6,14 +6,12 @@ sql:
           feed_id,
           email,
           user_feedback,
-          summary, 
           sentiment, 
           score) 
       values (
           :id,
           :email,
           :feedback,
-          :summary,
           :sentiment,
           cast(:score as numeric)
           ) 
@@ -21,6 +19,5 @@ sql:
       DO UPDATE SET 
           email = :email, 
           user_feedback = :feedback,  
-          summary = :summary,
           sentiment = :sentiment,
           score = cast(:score as numeric)

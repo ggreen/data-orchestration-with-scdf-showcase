@@ -1,16 +1,16 @@
 # Prequisite
 
 ```shell
-docker network create data-orchestration
+podman network create data-orchestration
 ```
 
 - Run RabbitMQ (user/bitnami)
 ```shell
-docker run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:4.0.4 
+podman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:4.0.4 
 ```
 
 ```shell
-docker run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
+podman run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
 ```
 
 
@@ -33,7 +33,7 @@ java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
 
 
 ```shell
-docker run --name psql -it --rm \
+podman run --name psql -it --rm \
 --network data-orchestration \
     bitnami/postgresql:latest psql -h postgresql -U postgres
 ```

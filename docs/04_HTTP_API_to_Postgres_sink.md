@@ -90,12 +90,12 @@ Generate Register Script
 
 ```shell
 mkdir -p runtime/scripts
-echo app register --name postgres --type sink --bootVersion 3 --uri file://$PWD/applications/sinks/postgres-sink/target/postgres-sink-0.0.1-SNAPSHOT.jar > runtime/scripts/postgres-sink-register.shell
+echo app register --name postgres --type sink --bootVersion 3 --uri file://$PWD/applications/sinks/postgres-sink/target/postgres-sink-0.0.1-SNAPSHOT.jar --metadataUri file://$PWD/applications/sinks/postgres-sink/target/postgres-sink-0.0.1-SNAPSHOT-metadata.jar > runtime/scripts/postgres-sink-register.shell
 cat runtime/scripts/postgres-sink-register.shell
 ```
 
 
-Register Account Batch
+Register Sink
 
 ```shell
 java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar --dataflow.uri=http://localhost:9393 --spring.shell.commandFile=runtime/scripts/postgres-sink-register.shell
