@@ -1,20 +1,19 @@
 Run Rabbit
 
 ```shell
-docker run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:4.0.4 
+pdoman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:4.0.4 
 ```
 
 Run Postgres
 
 ```shell
-```shell
-docker run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
+pdoman run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
 ```
 
 Run PostgresML
 
 ```shell
-docker run --rm --name postgresml \
+pdoman run --rm --name postgresml \
     -it \
     --network data-orchestration  \
     -v postgresml_data:/var/lib/postgresql \
@@ -26,7 +25,7 @@ docker run --rm --name postgresml \
 
 
 ```shell
-docker run --name psql -it --rm \
+pdoman run --name psql -it --rm \
 --network data-orchestration \
     bitnami/postgresql:latest psql -h postgresml  -U postgres -d postgresml
 ```
@@ -160,5 +159,4 @@ In psql
 
 ```sql
 select * from customer.feedback;
-
 ```
