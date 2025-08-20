@@ -83,6 +83,19 @@ export SPRING_APPLICATION_JSON='{"spring.cloud.stream.binders.rabbitBinder.envir
 java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
 ```
 
+# Building Project
+
+Download (first time only)
+```shell
+git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
+cd data-orchestration-with-scdf-showcase
+```
+
+Build (first time only)
+
+```shell
+mvn -Dmaven.test.skip=true package
+```
 
 ## Running the accounts
 

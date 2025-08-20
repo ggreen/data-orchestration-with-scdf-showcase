@@ -3,6 +3,20 @@
 ![http_api_postgres.png](img/http_api_postgres.png)
 
 
+# Building Project
+
+Download (first time only)
+```shell
+git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
+cd data-orchestration-with-scdf-showcase
+```
+
+Build (first time only)
+
+```shell
+mvn -Dmaven.test.skip=true package
+```
+
 Create podman network (if it does not exist)
 
 ```shell
@@ -211,6 +225,8 @@ curl -X 'POST' \
 }'
 ```
 
+Select data in PSQL
+
 ```sql
 select * from customer.customers;
 
@@ -235,7 +251,7 @@ curl -X 'POST' \
 }'
 ```
 
-Select Data
+Select Data in psql
 
 ```sql
 select * from customer.customers;
@@ -258,6 +274,11 @@ curl -X 'POST' \
   "state": "ny",
   "zip": "23232"
 }'
+```
+
+Type in psql
+```shell
+exit
 ```
 
 -----------------------

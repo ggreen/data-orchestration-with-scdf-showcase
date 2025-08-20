@@ -3,6 +3,20 @@
 ![http_to_sql_ai_postgres.png](img/http_to_sql_ai_postgres.png)
 
 
+# Building Project
+
+Download (first time only)
+```shell
+git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
+cd data-orchestration-with-scdf-showcase
+```
+
+Build (first time only)
+
+```shell
+mvn -Dmaven.test.skip=true package
+```
+
 Create podman network (if it does not exist)
 
 ```shell

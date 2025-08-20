@@ -238,6 +238,11 @@ ERROR: duplicate key value violates unique constraint "customers_pkey"
   Detail: Key (email)=(jsmith@email) already exists.
 ```
 
+Type in psql
+```shell
+exit
+```
+
 
 -----------------------
 # Tear Down
