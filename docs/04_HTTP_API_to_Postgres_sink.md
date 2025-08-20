@@ -127,9 +127,9 @@ open http://localhost:9393/dashboard/index.html#/streams/list
 ```
 
 
-Create Team
+Create Stream
 
-- Use following definition
+- Use the following definition
 
 ```shell
 customer-postgres-api=http --port=8090 --path-pattern=customers | postgres
