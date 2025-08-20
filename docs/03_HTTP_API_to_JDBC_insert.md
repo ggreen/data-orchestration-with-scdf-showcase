@@ -73,7 +73,7 @@ zip text NOT NULL,
 
 ```
 
-Open SCDF Dashboar
+Open SCDF Dashboard
 
 
 ```shell
