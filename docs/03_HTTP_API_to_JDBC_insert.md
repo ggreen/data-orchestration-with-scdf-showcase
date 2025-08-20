@@ -1,5 +1,8 @@
 # HTTP API to JDBC Stream
 
+![http_api_to_jdbc.png](img/http_api_to_jdbc.png)
+
+
 ```shell
 podman network create data-orchestration
 ```

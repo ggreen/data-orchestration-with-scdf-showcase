@@ -1,5 +1,7 @@
 # HTTP to SQL AI to Postgres
 
+![http_to_sql_ai_postgres.png](img/http_to_sql_ai_postgres.png)
+
 Run Rabbit
 
 ```shell

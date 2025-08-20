@@ -1,5 +1,7 @@
 # HTTP API to Postgres Stream
 
+![http_api_postgres.png](img/http_api_postgres.png)
+
 ```shell
 podman network create data-orchestration
 ```
