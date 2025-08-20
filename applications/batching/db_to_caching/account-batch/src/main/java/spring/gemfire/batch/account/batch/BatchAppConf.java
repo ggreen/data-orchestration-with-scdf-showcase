@@ -40,7 +40,7 @@ import java.util.UUID;
 public class BatchAppConf {
 
 
-    @Value("${batch.read.sql}")
+    @Value("${batch.read.sql:select * from cache_accounts.account}")
     private String readSql;
 
     @Value("${batch.read.fetch.size:100}")

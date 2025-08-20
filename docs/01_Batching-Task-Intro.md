@@ -168,7 +168,7 @@ podman exec -it postgresql psql -U postgres -d postgres
 select * from cache_accounts.account;
 ```
 
-## Review Target Results in Postgres
+## Review Target Results in Valkey
 
 1. Access Valkey
 
