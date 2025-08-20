@@ -114,7 +114,7 @@ open http://localhost:9393/dashboard/index.html#/apps
 The following is an example DSL to run the batch in Spring Cloud DataFlow
 
 
-Open Tasks
+Click Tasks
 
 ```shell
 open http://localhost:9393/dashboard/index.html#/tasks-jobs/tasks
@@ -130,7 +130,11 @@ name=db_to_caching
 
 Click Launch
 
+![Launch_Task.png](img/Launch_Task.png)
+
 View Job Executions
+
+Click Job executions 
 
 ```shell
 http://localhost:9393/dashboard/index.html#/tasks-jobs/job-executions
@@ -166,18 +170,30 @@ Once inside the CLI:
 keys *
 ```
 
-3. Inspect a string value
+3. Inspect a  value
 
-If you know the key is a string:
+Get HASH data using the key 
 
 
 ```valkey-cli
 HGETALL "spring.gemfire.showcase.account.domain.account.Account:1"
 ```
 
+Type in valkey-cli 
+```shell
+exit
+```
+
+Type in psql
+```shell
+exit
+```
+
 
 -----------------------
 # Tear Down
+
+
 
 - Stop Data Flow Server (Control C)
 - Stop SKipper (Control C)
