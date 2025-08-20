@@ -23,6 +23,20 @@ export SPRING_APPLICATION_JSON='{"spring.cloud.stream.binders.rabbitBinder.envir
 java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
 ```
 
+Open Dashboard
+
+```shell
+open http://localhost:9393/dashboard
+```
+
+
+Import Application
+
+    Click Applications -> Add Applications -> import application starters from dataflow.spring.io -> Stream application starters for RabbitMQ/Maven
+
+![Import-RabbitMQ-applications.png](img/Import-RabbitMQ-applications.png)
+
+
 ## HTTP Log Stream Pipeline
 
 
