@@ -183,6 +183,15 @@ app.postgres.spring.datasource.driverClassName=org.postgresql.Driver
 app.postgres.spring.datasource.hikari.max-lifetime=600000
 ```
 
+JSON
+
+```json
+    {
+      "id" : "F001",
+      "email" : "arul@email",
+      "feedback" : "I LOVE DATA FLOW."
+    }
+```
 
 ```shell
 curl -X 'POST' \
