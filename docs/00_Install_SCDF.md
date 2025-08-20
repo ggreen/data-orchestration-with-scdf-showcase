@@ -13,6 +13,9 @@ podman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p
 
 
 Download SCDF Jars (optional first time only)
+- SCDF Server
+- Skipper
+- Shell
 
 ```shell
 mkdir -p runtime/scdf
@@ -20,6 +23,7 @@ wget  --directory-prefix=runtime/scdf https://repo.maven.apache.org/maven2/org/s
 wget --directory-prefix=runtime/scdf https://repo.maven.apache.org/maven2/org/springframework/cloud/spring-cloud-skipper-server/2.11.5/spring-cloud-skipper-server-2.11.5.jar
 wget --directory-prefix=runtime/scdf https://repo.maven.apache.org/maven2/org/springframework/cloud/spring-cloud-dataflow-shell/2.11.5/spring-cloud-dataflow-shell-2.11.5.jar
 ```
+
 
 
 Start Skipper
@@ -63,6 +67,14 @@ List apps
 ```shell
 app list
 ```
+
+Type Exit close
+
+```shell
+exit
+```
+
+
 
 -----------------------
 # Tear Down
