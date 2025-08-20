@@ -53,10 +53,7 @@ podman run --name psql -it --rm \
 ```
 
 
-```sql
-SELECT usename, application_name,client_addr FROM pg_stat_activity;
-```
-
+Setup tables
 
 ```sql
 
