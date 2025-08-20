@@ -3,6 +3,8 @@
 ![http_api_postgres.png](img/http_api_postgres.png)
 
 
+Create podman network (if it does not exist)
+
 ```shell
 podman network create data-orchestration
 ```

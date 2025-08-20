@@ -2,6 +2,13 @@
 
 ![http_to_sql_ai_postgres.png](img/http_to_sql_ai_postgres.png)
 
+
+Create podman network (if it does not exist)
+
+```shell
+podman network create data-orchestration
+```
+
 Run Rabbit
 
 ```shell

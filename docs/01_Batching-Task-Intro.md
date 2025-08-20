@@ -4,7 +4,7 @@
 ![db-to-cache-batch.png](img/db-to-cache-batch.png)
 
 
-Create podman network
+Create podman network (if it does not exist)
 
 ```shell
 podman network create data-orchestration

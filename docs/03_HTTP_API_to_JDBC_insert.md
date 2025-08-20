@@ -2,6 +2,9 @@
 
 ![http_api_to_jdbc.png](img/http_api_to_jdbc.png)
 
+
+Create podman network (if it does not exist)
+
 ```shell
 podman network create data-orchestration
 ```
