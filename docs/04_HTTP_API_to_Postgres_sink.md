@@ -1,7 +1,7 @@
 # HTTP API to Postgres Stream
 
-![http_api_postgres.png](img/http_api_postgres.png)
 
+![http_api_postgres.png](img/http_api_postgres.png)
 
 # Building Project
 
