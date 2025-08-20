@@ -49,7 +49,7 @@ Import Application
 
     Click Applications -> Add Applications -> import application starters from dataflow.spring.io -> Stream application starters for RabbitMQ/Maven
 
-![import-rabbit-apps.png](img/import-rabbit-apps.png)
+![Import-RabbitMQ-applications.png](img/Import-RabbitMQ-applications.png)
 
 
 Access CLI
