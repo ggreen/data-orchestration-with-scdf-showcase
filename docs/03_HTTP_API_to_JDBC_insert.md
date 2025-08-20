@@ -2,7 +2,6 @@
 
 ![http_api_to_jdbc.png](img/http_api_to_jdbc.png)
 
-
 ```shell
 podman network create data-orchestration
 ```
@@ -239,15 +238,6 @@ ERROR: duplicate key value violates unique constraint "customers_pkey"
   Detail: Key (email)=(jsmith@email) already exists.
 ```
 
-
-- Stop Data Flow Server (Control C)
-- Stop SKipper (Control C)
-
-Stop Services
-
-```shell
-podman rm -f rabbitmq postgresml postgresql
-```
 
 -----------------------
 # Tear Down

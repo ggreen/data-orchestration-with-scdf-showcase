@@ -1,6 +1,6 @@
 #  Streaming Introduction
 
-![intro-streaming-http-log.png](img/intro-streaming-http-log.png)
+![http_api_to_log.png](img/http_api_to_log.png)
 
 - Run RabbitMQ (user/bitnami)
 ```shell
@@ -49,7 +49,7 @@ http-api=http --port=8081 --path-pattern=customers | log
 
 ## Testing
 
-Example JJSON
+Example JSON
 
 ```json
 
@@ -90,7 +90,7 @@ View Logs output in dashboard
 -------------
 ## Upper Case Stream
 
- ![http-transform-log.png](img/http-transform-log.png)
+![http_api_to_transform_log.png](img/http_api_to_transform_log.png)
 
 Open Dashboard
 
