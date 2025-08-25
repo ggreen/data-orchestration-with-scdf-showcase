@@ -110,6 +110,8 @@ cat runtime/scripts/account-batch.shell
 
 Register Account Batch
 
+NOTE: Please make sure to adjust the path to scdf jar or account-batch.shell file if your running in errors with registering the application
+
 ```shell
 java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar --dataflow.uri=http://localhost:9393 --spring.shell.commandFile=runtime/scripts/account-batch.shell
 ````
