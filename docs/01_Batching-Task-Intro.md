@@ -216,3 +216,13 @@ Stop Services
 ```shell
 podman rm -f rabbitmq valkey postgresql
 ```
+
+
+# Troubleshooting
+
+- Application failed to comiple when running **"mvn -Dmaven.test.skip=true clean package"**
+
+Make sure to setup JAVA_HOME to point to jdk17
+```
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+```
