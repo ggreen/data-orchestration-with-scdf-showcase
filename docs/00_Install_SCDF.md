@@ -2,6 +2,11 @@
 
 # Start RabbitMQ
 
+- Clone the git repo
+```
+git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
+cd data-orchestration-with-scdf-showcase
+```
 
 - Run RabbitMQ (user/bitnami)
 ```shell
