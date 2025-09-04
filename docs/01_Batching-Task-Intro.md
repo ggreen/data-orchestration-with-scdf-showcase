@@ -110,6 +110,8 @@ cat runtime/scripts/account-batch.shell
 
 Register Account Batch
 
+NOTE: Please make sure to adjust the path to scdf jar or account-batch.shell file if your running in errors with registering the application
+
 ```shell
 java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar --dataflow.uri=http://localhost:9393 --spring.shell.commandFile=runtime/scripts/account-batch.shell
 ````
@@ -168,7 +170,7 @@ podman exec -it postgresql psql -U postgres -d postgres
 select * from cache_accounts.account;
 ```
 
-## Review Target Results in Postgres
+## Review Target Results in Valkey
 
 1. Access Valkey
 
@@ -215,4 +217,14 @@ Stop Services
 
 ```shell
 podman rm -f rabbitmq valkey postgresql
+```
+
+
+# Troubleshooting
+
+- Application failed to comiple when running **"mvn -Dmaven.test.skip=true clean package"**
+
+Make sure to setup JAVA_HOME to point to jdk17
+```
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
 ```
