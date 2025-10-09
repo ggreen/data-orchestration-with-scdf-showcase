@@ -15,6 +15,7 @@
 		<module>applications/sinks/postgres-sink</module>
 		<module>applications/processors/postgres-query-processor</module>
 		<module>applications/processors/postgres-embedding-similarity-processor</module>
+		<module>applications/sinks/rabbit-stream-sink</module>
 	</modules>
 	<build>
 		<pluginManagement>
