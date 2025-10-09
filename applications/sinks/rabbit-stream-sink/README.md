@@ -2,6 +2,9 @@
 
 The Rabbit Stream Sink application is a Spring Cloud Stream application that reads messages from an input channel and publishes them to a RabbitMQ stream. It is built using Spring Boot and Spring Cloud Stream, leveraging the RabbitMQ Stream Binder for integration with RabbitMQ streams.
 
+
+cf create-service retail-rabbitmq -c '{ "plugins": { "rabbitmq_stream": true, "rabbitmq_stream_management": true } }'
+
 ## Getting Started
 
 ```shell
@@ -23,8 +26,6 @@ The following configurations are available for the Rabbit Stream Sink applicatio
 | spring.cloud.stream.bindings.input.destination | The name of the RabbitMQ inbound queue                                                         |
 
 
-
-
 # Spring Cloud Data Flow
 
 
@@ -32,25 +33,49 @@ The following configurations are available for the Rabbit Stream Sink applicatio
 open http://localhost:9393/dashboard/index.html#/apps/add
 ```
 
-Add properties 
+Use the following properties to register the application in Data Flow
 
-````shell
-echo sink.stream-sink="file://$PWD/applications/sinks/rabbit-stream-sink/target/rabbit-stream-sink-0.0.1-SNAPSHOT.jar"
-echo sink.stream-sink.bootVersion=3
-echo sink.stream-sink.metadata="file://$PWD/applications/sinks/rabbit-stream-sink/target/rabbit-stream-sink-0.0.1-SNAPSHOT-metadata.jar"
-````
+```shell
+sink.stream-sink=maven://com.github.ggreen:rabbit-stream-sink:0.0.1
+sink.stream-sink.bootVersion=3
+```
 
-Example Stream
+Example Data Flow Stream
 
 ```scdf
 http-stream=http --port=8555 | stream-sink --rabbit.stream.sink.streamName=greenplum
 ```
 
 
-Test Stream
+----------------
+
+# Testing SCDF Deployments
+
+Test Stream for testing locally
 
 ```shell
 curl -X POST http://localhost:8555 \
 -H "Content-Type: application/json" \
 -d '{"key":"value","anotherKey":123}'
+```
+
+
+Posting Randomly Generated Data 
+
+```shell
+export STREAM_URL=http://localhost:8555
+for i in {1..20}
+do
+  uuid=$(uuidgen)
+  num=$RANDOM
+  firstName="John$num"
+  lastName="Doe$num"
+  email="john.doe$num@example.com"
+  phone="555-01$(printf "%03d" $num)"
+  json="{\"id\":\"$uuid\",\"value\":$num,\"firstName\":\"$firstName\",\"lastName\":\"$lastName\",\"email\":\"$email\",\"phone\":\"$phone\"}"
+  curl -X POST $STREAM_URL \
+    -H "Content-Type: application/json" \
+    -d "$json"
+  echo "$json"
+done
 ```

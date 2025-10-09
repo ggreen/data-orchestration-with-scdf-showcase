@@ -6,6 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * RabbitStreamSinkProperties the Rabbitmq stream properties
+ *
+ * @author Gregory Green
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

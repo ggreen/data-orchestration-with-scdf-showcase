@@ -7,7 +7,7 @@
 	<groupId>com.vmware</groupId>
 	<artifactId>ai-data-orchestration-with-scdf-showcase</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0</version>
+	<version>1.0.0</version>
 	<name>ai-data-orchestration-with-scdf-showcase</name>
 	<modules>
 		<module>components/account-domain</module>
