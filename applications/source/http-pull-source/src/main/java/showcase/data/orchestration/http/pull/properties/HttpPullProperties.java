@@ -22,15 +22,15 @@ public class HttpPullProperties {
     /**
      * The URL to authenticate against.
      */
-    private URI authenticateUrl;
+    private URI authenticateUrlSecret;
 
     /**
      * The authentication parameter, such as an API key or token.
      */
-    private String authenticateParam;
+    private String authenticateUrlParamSecret;
 
     /**
      * The URL from which to pull data.
      */
-    private  URI pullUrl;
+    private  URI pullUrlSecret;
 }

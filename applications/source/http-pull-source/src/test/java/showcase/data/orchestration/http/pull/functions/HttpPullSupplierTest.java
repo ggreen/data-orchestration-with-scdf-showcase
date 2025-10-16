@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import showcase.data.orchestration.http.pull.properties.HttpPullProperties;
@@ -45,9 +44,9 @@ class HttpPullSupplierTest {
                 any(Class.class)
         )).thenReturn(response);
 
-        when(properties.getAuthenticateParam()).thenReturn("param=value");
-        when(properties.getAuthenticateUrl()).thenReturn(URI.create("https://postman-echo.com/post"));
-        when(properties.getPullUrl()).thenReturn(URI.create("https://postman-echo.com/get?foo1=bar1&foo2=bar2"));
+        when(properties.getAuthenticateUrlParamSecret()).thenReturn("param=value");
+        when(properties.getAuthenticateUrlSecret()).thenReturn(URI.create("https://postman-echo.com/post"));
+        when(properties.getPullUrlSecret()).thenReturn(URI.create("https://postman-echo.com/get?foo1=bar1&foo2=bar2"));
         when(response.getBody()).thenReturn("response");
 
         var responseText = subject.get();

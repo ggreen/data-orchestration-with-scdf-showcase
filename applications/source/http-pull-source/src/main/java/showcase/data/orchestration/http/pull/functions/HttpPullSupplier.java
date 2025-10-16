@@ -30,10 +30,10 @@ public class HttpPullSupplier implements Supplier<String> {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         // Request entity
-        var requestEntity = new HttpEntity<String>(properties.getAuthenticateParam(), headers);
+        var requestEntity = new HttpEntity<String>(properties.getAuthenticateUrlParamSecret(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                properties.getAuthenticateUrl(),
+                properties.getAuthenticateUrlSecret(),
                 HttpMethod.POST,
                 requestEntity,
                 String.class
@@ -53,7 +53,7 @@ public class HttpPullSupplier implements Supplier<String> {
         HttpEntity<String> entity = new HttpEntity<>(null, queryHeaders);
 
         var responseEntity = restTemplate.exchange(
-                properties.getPullUrl(),
+                properties.getPullUrlSecret(),
                 HttpMethod.GET,
                 entity,
                 String.class
