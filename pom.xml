@@ -16,6 +16,7 @@
 		<module>applications/processors/postgres-query-processor</module>
 		<module>applications/processors/postgres-embedding-similarity-processor</module>
 		<module>applications/sinks/rabbit-stream-sink</module>
+		<module>applications/source/http-pull-source</module>
 	</modules>
 	<build>
 		<pluginManagement>
