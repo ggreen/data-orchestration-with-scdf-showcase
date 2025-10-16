@@ -4,6 +4,15 @@ Http Pull Source to publish HTTP payload to RabbitMQ.
 
 
 
+Use the following properties to register the application in Data Flow
+
+```shell
+source.http-pull-source=maven://com.github.ggreen:http-pull-source:0.0.1
+source.http-pull-source.bootVersion=3
+```
+
+
+
 Generate Register Script
 
 ```shell
@@ -21,6 +30,16 @@ java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar --dataflow.uri=htt
 
 Data Flow Streams
 
-```shell
+Configurations
 
-```
+
+The following configurations are available for the HTTP Pull Source application:
+
+| Property                                    | Notes                                     |
+|---------------------------------------------|-------------------------------------------|
+| http.pull.source.authenticateUrlSecret      | The authenticate Url Secret               |
+| http.pull.source.authenticateUrlParamSecret | The authenticate Url Param (ex: the user) |
+| http.pull.source.pullUrlSecret              | The URL to pull HTTP data                 |
+
+
+Also see https://docs.spring.io/spring-boot/appendix/application-properties/index.html#application-properties.integration.spring.rabbitmq.addresses
