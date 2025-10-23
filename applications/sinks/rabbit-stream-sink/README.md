@@ -15,15 +15,21 @@ java -jar applications/sinks/rabbit-stream-sink/target/rabbit-stream-sink-0.0.1-
 
 The following configurations are available for the Rabbit Stream Sink application:
 
-| Property                                       | Notes                                                                                          |
-|------------------------------------------------|------------------------------------------------------------------------------------------------|
-| rabbit.stream.sink.streamName                  | The name of the RabbitMQ stream to publish                                                     |
-| spring.rabbitmq.username                       | RabbitMQ username. (default guest)                                                             |
-| spring.rabbitmq.password                       | RabbitMQ password. (default guest)                                                             |
-| spring.rabbitmq.virtual-host                   | RabbitMQ virtual host. (default /)                                                             |
-| spring.rabbitmq.addresses                      | List of addresses to which the client should connect. When set, the host and port are ignored. |
-| spring.rabbitmq.host                           | RabbitMQ host. Ignored if an address is set. (default localhost)                               |
-| spring.cloud.stream.bindings.input.destination | The name of the RabbitMQ inbound queue                                                         |
+| Property                                       | Notes                                                                                                                   |
+|------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| rabbit.stream.sink.streamName                  | The name of the RabbitMQ stream to publish                                                                              |
+| spring.rabbitmq.username                       | RabbitMQ username. (default guest)                                                                                      |
+| spring.rabbitmq.password                       | RabbitMQ password. (default guest)                                                                                      |
+| spring.rabbitmq.virtual-host                   | RabbitMQ virtual host. (default /)                                                                                      |
+| spring.rabbitmq.addresses                      | List of addresses to which the client should connect. When set, the host and port are ignored.                          |
+| spring.rabbitmq.host                           | RabbitMQ host. Ignored if an address is set. (default localhost)                                                        |
+| spring.rabbitmq.stream.host                    | Host of a RabbitMQ instance with the Stream plugin enabled.                                                             |
+| spring.rabbitmq.stream.name                    | Name of the stream.                                                                                                     |
+| spring.rabbitmq.stream.username                | Login username to authenticate to the broker. When not set spring.rabbitmq.username is used.                            |
+| spring.rabbitmq.stream.password                | Login password to authenticate to the broker. When not set spring.rabbitmq.password is used.                            |
+| spring.rabbitmq.stream.virtual-host            | Virtual host of a RabbitMQ instance with the Stream plugin enabled. When not set, spring.rabbitmq.virtual-host is used. | 
+| spring.rabbitmq.stream.port                    | Login password to authenticate to the broker. When not set spring.rabbitmq.password is used.                            |
+| spring.cloud.stream.bindings.input.destination | The name of the RabbitMQ inbound queue                                                                                  |
 
 
 # Spring Cloud Data Flow
