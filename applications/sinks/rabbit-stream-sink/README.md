@@ -7,7 +7,7 @@ for integration with RabbitMQ streams.
 ## Getting Started
 
 ```shell
-java -jar applications/sinks/rabbit-stream-sink/target/rabbit-stream-sink-0.0.1-SNAPSHOT.jar --rabbit.stream.sink.streamName=output   
+java -jar applications/sinks/rabbit-stream-sink/target/rabbit-stream-sink-0.0.1.jar --rabbit.stream.sink.streamName=output   
 ```
 
 ## Configurations
