@@ -1,9 +1,8 @@
 # Rabbit Stream Sink
 
-The Rabbit Stream Sink application is a Spring Cloud Stream application that reads messages from an input channel and publishes them to a RabbitMQ stream. It is built using Spring Boot and Spring Cloud Stream, leveraging the RabbitMQ Stream Binder for integration with RabbitMQ streams.
-
-
-cf create-service retail-rabbitmq -c '{ "plugins": { "rabbitmq_stream": true, "rabbitmq_stream_management": true } }'
+The Rabbit Stream Sink application is a Spring Cloud Stream application that reads messages from an input channel and 
+publishes them to a RabbitMQ stream. It is built using Spring Boot and Spring Cloud Stream, leveraging the RabbitMQ Stream Binder 
+for integration with RabbitMQ streams.
 
 ## Getting Started
 
@@ -32,8 +31,21 @@ The following configurations are available for the Rabbit Stream Sink applicatio
 | spring.cloud.stream.bindings.input.destination | The name of the RabbitMQ inbound queue                                                                                  |
 
 
+## Enable RabbitMQ Stream
+
+Note must enable [RabbitMQ Streams](https://www.rabbitmq.com/docs/streams)
+
+Use the following to enable on Cloud Foundry
+
+```shell
+cf create-service retail-rabbitmq -c '{ "plugins": { "rabbitmq_stream": true, "rabbitmq_stream_management": true } }'
+```
+
+-----------------------
+
 # Spring Cloud Data Flow
 
+Setup on Data Flow
 
 ```shell
 open http://localhost:9393/dashboard/index.html#/apps/add
