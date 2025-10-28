@@ -40,6 +40,12 @@ The following configurations are available for the HTTP Pull Source application:
 | http.pull.source.authenticateUrlSecret      | The authenticate Url Secret               |
 | http.pull.source.authenticateUrlParamSecret | The authenticate Url Param (ex: the user) |
 | http.pull.source.pullUrlSecret              | The URL to pull HTTP data                 |
+| spring.rabbitmq.username                       | RabbitMQ username. (default guest)                                                                                      |
+| spring.rabbitmq.password                       | RabbitMQ password. (default guest)                                                                                      |
+| spring.rabbitmq.virtual-host                   | RabbitMQ virtual host. (default /)                                                                                      |
+| spring.rabbitmq.addresses                      | List of addresses to which the client should connect. When set, the host and port are ignored.                          |
+| spring.rabbitmq.host                           | RabbitMQ host. Ignored if an address is set. (default localhost)                                                        |
+
 
 
 Also see https://docs.spring.io/spring-boot/appendix/application-properties/index.html#application-properties.integration.spring.rabbitmq.addresses
