@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.github.ggreen</groupId>
 	<artifactId>split-json-array-processor</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>split-json-array-processor</name>
 	<description>split-json-array-processor</description>
 	<url>https://github.com/ggreen/data-orchestration-with-scdf-showcase/tree/main/applications/processors/split-json-array-processor</url>
@@ -137,24 +137,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dataflow-apps-metadata-plugin</artifactId>
-				<!--				<version>1.0.2</version>-->
-				<configuration>
-					<storeFilteredMetadata>true</storeFilteredMetadata>
-				</configuration>
-				<executions>
-					<execution>
-						<id>aggregate-metadata</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>aggregate-metadata</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
