@@ -4,6 +4,8 @@ The Rabbit Stream Sink application is a Spring Cloud Stream application that rea
 publishes them to a RabbitMQ stream. It is built using Spring Boot and Spring Cloud Stream, leveraging the RabbitMQ Stream Binder 
 for integration with RabbitMQ streams.
 
+![rabbitmq-stream-sink.png](docs/img/rabbitmq-stream-sink.png)
+
 ## Getting Started
 
 ```shell
