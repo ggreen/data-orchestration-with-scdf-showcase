@@ -1,0 +1,1 @@
+podman run --name postgresql --network data-orchestration --rm  -e POSTGRES_USER=postgres -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=postgres -p 5432:5432 postgres:15

@@ -23,31 +23,27 @@ Create podman network (if it does not exist)
 podman network create data-orchestration
 ```
 
-- Run RabbitMQ (user/bitnami)
+- Run RabbitMQ (guest/guest) if not running
 ```shell
-podman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:4.0.4 
+deployment/local/podman/rabbit/start.sh 
 ```
 
-Run Postgres 
-```shell
-podman run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
-```
+Start if not running
 
-
-Start Skipper
 ```shell
-export ROOT_DIR=$PWD
-export SPRING_APPLICATION_JSON='{"spring.datasource.username" : "postgres","spring.datasource.url": "jdbc:postgresql://localhost/postgres"}'
-java -jar runtime/scdf/spring-cloud-skipper-server-2.11.5.jar
+./deployment/local/podman/postgres/start.sh  
 ```
 
 
-Start Data Flow Server
+Start Skipper (if not running)
 ```shell
-export ROOT_DIR=$PWD
-export SPRING_APPLICATION_JSON='{"spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.username":"user","spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.password":"bitnami","spring.rabbitmq.username":"user","spring.rabbitmq.password":"bitnami","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.username" :"user","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.password" :"bitnami", "spring.datasource.username" : "postgres","spring.datasource.url": "jdbc:postgresql://localhost/postgres","spring.datasource.driverClassName": "org.postgresql.Driver"}'
+deployment/local/dataflow/start-skipper.sh
+```
 
-java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
+
+Start Data Flow Server (if not running)
+```shell
+deployment/local/dataflow/start-df-server.sh
 ```
 
 
@@ -56,14 +52,13 @@ java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
 Run psql
 
 ```shell
-podman run --name psql -it --rm \
---network data-orchestration \
-    bitnami/postgresql:latest psql -h postgresql -U postgres
+podman exec -it postgresql psql -U postgres -d postgres
 ```
 
 
 
 ```sql
+drop schema customer CASCADE;
 
 create schema IF NOT EXISTS customer;
 
@@ -109,15 +104,15 @@ Generate Register Script
 
 ```shell
 mkdir -p runtime/scripts
-echo app register --name gemfire-vector-sink --type sink --bootVersion 3 --uri file://$PWD/applications/gemfire-vector-sink/target/gemfire-vector-sink-0.0.1-SNAPSHOT.jar > runtime/scripts/gemfire-vector-sink-register.shell
-cat runtime/scripts/gemfire-vector-sink-register.shell
+echo app register --name postgres --type sink --bootVersion 3 --uri file://$PWD/applications/sinks/postgres-sink/target/postgres-sink-0.0.1-SNAPSHOT.jar > runtime/scripts/postgres-sink-register.shell
+cat runtime/scripts/postgres-sink-register.shell
 ```
 
 
 Register Sink
 
 ```shell
-java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar --dataflow.uri=http://localhost:9393 --spring.shell.commandFile=runtime/scripts/gemfire-vector-sink-register.shell
+java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar --dataflow.uri=http://localhost:9393 --spring.shell.commandFile=runtime/scripts/postgres-sink-register.shell
 ````
 
 Open dashboard

@@ -8,9 +8,9 @@ git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
 cd data-orchestration-with-scdf-showcase
 ```
 
-- Run RabbitMQ (user/bitnami)
+- Run RabbitMQ (guest/guest)
 ```shell
-podman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:latest 
+deployment/local/podman/rabbit/start.sh
 ```
 
 
@@ -33,17 +33,13 @@ wget --directory-prefix=runtime/scdf https://repo.maven.apache.org/maven2/org/sp
 
 Start Skipper
 ```shell
-export ROOT_DIR=$PWD
-java -jar runtime/scdf/spring-cloud-skipper-server-2.11.5.jar
+./deployment/local/dataflow/start-skipper.sh
 ```
 
 
 Start Data Flow Server
 ```shell
-export ROOT_DIR=$PWD 
-export SPRING_APPLICATION_JSON='{"spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.username":"user","spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.password":"bitnami","spring.rabbitmq.username":"user","spring.rabbitmq.password":"bitnami","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.username" :"user","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.password" :"bitnami"}'
-
-java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
+./deployment/local/dataflow/start-df-server.sh
 ```
 
 
@@ -77,18 +73,4 @@ Type Exit close
 
 ```shell
 exit
-```
-
-
-
------------------------
-# Tear Down
-
-- Stop Data Flow Server (Control C)
-- Stop SKipper (Control C)
-
-Stop Services
-
-```shell
-podman rm -f rabbitmq 
 ```

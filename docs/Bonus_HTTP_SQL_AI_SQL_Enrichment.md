@@ -23,16 +23,30 @@ Create podman network (if it does not exist)
 podman network create data-orchestration
 ```
 
-Run Rabbit
+- Run RabbitMQ (guest/guest) if not running
+```shell
+deployment/local/podman/rabbit/start.sh 
+```
+## Postgres
+
+Start if not running
 
 ```shell
-podman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:4.0.4 
+./deployment/local/podman/postgres/start.sh  
 ```
 
-Run Postgres
+# Start SCDF
 
+
+Start Skipper (if not running)
 ```shell
-podman run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
+deployment/local/dataflow/start-skipper.sh
+```
+
+
+Start Data Flow Server (if not running)
+```shell
+deployment/local/dataflow/start-df-server.sh
 ```
 
 Run PostgresML
@@ -41,6 +55,7 @@ Run PostgresML
 podman run --rm --name postgresml \
     -it \
     --network data-orchestration  \
+    --cap-add=AUDIT_WRITE \
     -v postgresml_data:/var/lib/postgresql \
     -p 6432:5432 \
     -p 8000:8000 \
@@ -55,9 +70,11 @@ podman run --name psql -it --rm \
     bitnami/postgresql:latest psql -h postgresml  -U postgres -d postgresml
 ```
 
+In PostgresML
 
 ```shell
-create  schema  if not exists customer ;
+drop schema customer cascade;
+create  schema customer ;
 
 create table customer.feedback(
     feed_id text NOT NULL,
@@ -71,22 +88,6 @@ create table customer.feedback(
 ```
 
 
-Start Skipper
-
-```shell
-export ROOT_DIR=$PWD
-export SPRING_APPLICATION_JSON='{"spring.datasource.username" : "postgres","spring.datasource.url": "jdbc:postgresql://localhost/postgres"}'
-java -jar runtime/scdf/spring-cloud-skipper-server-2.11.5.jar
-```
-
-
-Start Data Flow Server
-```shell
-export ROOT_DIR=$PWD
-export SPRING_APPLICATION_JSON='{"spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.username":"user","spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.password":"bitnami","spring.rabbitmq.username":"user","spring.rabbitmq.password":"bitnami","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.username" :"user","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.password" :"bitnami", "spring.datasource.username" : "postgres","spring.datasource.url": "jdbc:postgresql://localhost/postgres","spring.datasource.driverClassName": "org.postgresql.Driver"}'
-
-java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
-```
 
 ---------------------------
 
@@ -100,7 +101,7 @@ echo app register --name postgres --type sink --bootVersion 3 --uri file://$PWD/
 cat runtime/scripts/postgres-sink-register.shell
 ```
 
-Register Sink
+Register Sink (if not registered)
 
 ```shell
 java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar --dataflow.uri=http://localhost:9393 --spring.shell.commandFile=runtime/scripts/postgres-sink-register.shell
@@ -190,23 +191,7 @@ app.postgres.spring.datasource.hikari.max-lifetime=600000
 ```
 
 
-
-```properties
-app.http.path-pattern=feedback
-app.http.server.port=8094
-app.sentiment.spring.datasource.username=postgres
-app.sentiment.spring.datasource.url="jdbc:postgresql://localhost:6432/postgresml"
-app.sentiment.spring.datasource.driverClassName=org.postgresql.Driver
-app.sentiment.spring.config.import=optional:file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/processors/postgres-query-processor/src/main/resources/sentiment-analysis.yml
-app.sentiment.spring.datasource.hikari.max-lifetime=600000
-app.postgres.spring.datasource.username=postgres
-app.postgres.spring.datasource.url="jdbc:postgresql://localhost:6432/postgresml"
-app.postgres.spring.config.import=optional:file:///Users/Projects/solutions/ai-ml/dev/ai-data-orchestration-with-scdf-showcase/applications/sinks/postgres-sink/src/main/resources/postgres-sentiment-analysis.yml
-app.postgres.spring.datasource.driverClassName=org.postgresql.Driver
-app.postgres.spring.datasource.hikari.max-lifetime=600000
-```
-
-JSON
+Testing with JSON
 
 ```json
     {
@@ -229,7 +214,7 @@ curl -X 'POST' \
 ```
 
 
-In psql
+In PostgresML
 
 ```sql
 select * from customer.feedback;

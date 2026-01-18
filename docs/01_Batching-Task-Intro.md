@@ -13,9 +13,26 @@ podman network create data-orchestration
 Start Postgres
 
 ```shell
-podman run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
+./deployment/local/podman/postgres/start.sh 
 ```
 
+
+- Run RabbitMQ (guest/guest) - optional
+```shell
+./deployment/local/podman/rabbit/start.sh 
+```
+
+
+Start Skipper (if not running)
+```shell
+deployment/local/dataflow/start-skipper.sh
+```
+
+
+Start Data Flow Server (if not running)
+```shell
+deployment/local/dataflow/start-df-server.sh
+```
 
 Access PSQL
 
@@ -56,32 +73,9 @@ INSERT INTO cache_accounts.account (id, name, first_nm, last_nm, email, phone) V
 Start ValKey
 
 ```shell
-podman run -it --rm \
-  --name valkey \
-  -p 6379:6379 \
-  valkey/valkey:latest
+./deployment/local/podman/valkey/start.sh
 ```
 
-- Run RabbitMQ (user/bitnami) - optional
-```shell
-podman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:latest 
-```
-
-
-Start Skipper
-```shell
-export ROOT_DIR=$PWD
-java -jar runtime/scdf/spring-cloud-skipper-server-2.11.5.jar
-```
-
-
-Start Data Flow Server
-```shell
-export ROOT_DIR=$PWD 
-export SPRING_APPLICATION_JSON='{"spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.username":"user","spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.password":"bitnami","spring.rabbitmq.username":"user","spring.rabbitmq.password":"bitnami","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.username" :"user","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.password" :"bitnami"}'
-
-java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
-```
 
 # Building Project
 
@@ -206,12 +200,10 @@ exit
 
 
 -----------------------
-# Tear Down
-
-
+# Tear Down (optional)
 
 - Stop Data Flow Server (Control C)
-- Stop SKipper (Control C)
+- Stop Skipper (Control C)
 
 Stop Services
 
@@ -222,7 +214,7 @@ podman rm -f rabbitmq valkey postgresql
 
 # Troubleshooting
 
-- Application failed to comiple when running **"mvn -Dmaven.test.skip=true clean package"**
+- Application failed to compile when running **"mvn -Dmaven.test.skip=true clean package"**
 
 Make sure to setup JAVA_HOME to point to jdk17
 ```

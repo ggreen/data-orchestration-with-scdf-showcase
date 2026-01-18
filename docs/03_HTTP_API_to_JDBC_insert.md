@@ -11,45 +11,38 @@ podman network create data-orchestration
 
 ## Start RabbitMQ
 
-- Run RabbitMQ (user/bitnami)
-```shell
-podman run --name rabbitmq  --rm -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -p 5672:5672 -p 5552:5552 -p 15672:15672  -p  1883:1883  bitnami/rabbitmq:latest 
-```
-
-
 ## Postgres
 
+Start if not running
+
 ```shell
-podman run --name postgresql --network data-orchestration --rm  -e POSTGRESQL_USERNAME=postgres -e ALLOW_EMPTY_PASSWORD=true -e POSTGRESQL_DATABASE=postgres -p 5432:5432 bitnami/postgresql:latest 
+./deployment/local/podman/postgres/start.sh  
 ```
+
+- Run RabbitMQ (guest/guest) if not running
+```shell
+deployment/local/podman/rabbit/start.sh 
+```
+
 
 # Start SCDF
 
-
-
-Start Skipper
+Start Skipper (if not running)
 ```shell
-export ROOT_DIR=$PWD
-export SPRING_APPLICATION_JSON='{"spring.datasource.username" : "postgres","spring.datasource.url": "jdbc:postgresql://localhost/postgres"}'
-java -jar runtime/scdf/spring-cloud-skipper-server-2.11.5.jar
+deployment/local/dataflow/start-skipper.sh
 ```
 
 
-Start Data Flow Server
+Start Data Flow Server (if not running)
 ```shell
-export ROOT_DIR=$PWD
-export SPRING_APPLICATION_JSON='{"spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.username":"user","spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.password":"bitnami","spring.rabbitmq.username":"user","spring.rabbitmq.password":"bitnami","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.username" :"user","spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.password" :"bitnami", "spring.datasource.username" : "postgres","spring.datasource.url": "jdbc:postgresql://localhost/postgres","spring.datasource.driverClassName": "org.postgresql.Driver"}'
-
-java -jar runtime/scdf/spring-cloud-dataflow-server-2.11.5.jar
+deployment/local/dataflow/start-df-server.sh
 ```
 
 
 ## PSQL
 
 ```shell
-podman run --name psql -it --rm \
---network data-orchestration \
-    bitnami/postgresql:latest psql -h postgresql -U postgres
+podman exec -it postgresql psql -U postgres -d postgres
 ```
 
 
@@ -245,7 +238,7 @@ exit
 
 
 -----------------------
-# Tear Down
+# Tear Down (optional)
 
 - Stop Data Flow Server (Control C)
 - Stop SKipper (Control C)
