@@ -229,5 +229,5 @@ select * from customer.feedback;
 Stop Services
 
 ```shell
-podman rm -f rabbitmq postgresml postgresql
+podman rm -f rabbitmq postgresml postgresql valkey
 ```
