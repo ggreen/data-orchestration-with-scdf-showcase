@@ -3,20 +3,6 @@
 
 ![db-to-cache-batch.png](img/db-to-cache-batch.png)
 
-
-Create podman network (if it does not exist)
-
-```shell
-podman network create data-orchestration
-```
-
-Start Postgres
-
-```shell
-./deployment/local/podman/postgres/start.sh 
-```
-
-
 - Run RabbitMQ (guest/guest) - optional
 ```shell
 ./deployment/local/podman/rabbit/start.sh 
@@ -32,6 +18,30 @@ deployment/local/dataflow/start-skipper.sh
 Start Data Flow Server (if not running)
 ```shell
 deployment/local/dataflow/start-df-server.sh
+```
+
+
+# Building Project
+
+Download (first time only)
+```shell
+git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
+cd data-orchestration-with-scdf-showcase
+```
+
+Build (first time only)
+
+```shell
+mvn -Dmaven.test.skip=true package
+```
+
+
+-----------------
+
+Start Postgres
+
+```shell
+./deployment/local/podman/postgres/start.sh 
 ```
 
 Access PSQL
@@ -68,28 +78,12 @@ INSERT INTO cache_accounts.account (id, name, first_nm, last_nm, email, phone) V
 ('10', 'iroberts', 'Ivy', 'Roberts', 'iroberts@example.com', '555-223-4455');
 ```
 
-
-
 Start ValKey
 
 ```shell
 ./deployment/local/podman/valkey/start.sh
 ```
 
-
-# Building Project
-
-Download (first time only)
-```shell
-git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
-cd data-orchestration-with-scdf-showcase
-```
-
-Build (first time only)
-
-```shell
-mvn -Dmaven.test.skip=true package
-```
 
 ## Running the accounts
 

@@ -1,0 +1,1 @@
+java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar

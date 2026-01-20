@@ -1,16 +1,9 @@
 # Install SCDF
 
-# Start RabbitMQ
+Create podman network (if it does not exist)
 
-- Clone the git repo
-```
-git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
-cd data-orchestration-with-scdf-showcase
-```
-
-- Run RabbitMQ (guest/guest)
 ```shell
-deployment/local/podman/rabbit/start.sh
+podman network create data-orchestration
 ```
 
 
@@ -28,8 +21,20 @@ wget  --directory-prefix=runtime/scdf https://repo.maven.apache.org/maven2/org/s
 wget --directory-prefix=runtime/scdf https://repo.maven.apache.org/maven2/org/springframework/cloud/spring-cloud-skipper-server/2.11.5/spring-cloud-skipper-server-2.11.5.jar
 wget --directory-prefix=runtime/scdf https://repo.maven.apache.org/maven2/org/springframework/cloud/spring-cloud-dataflow-shell/2.11.5/spring-cloud-dataflow-shell-2.11.5.jar
 ```
+--------------------------
 
+# Start RabbitMQ
 
+- Clone the git repo
+```
+git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
+cd data-orchestration-with-scdf-showcase
+```
+
+- Run RabbitMQ (guest/guest)
+```shell
+deployment/local/podman/rabbit/start.sh
+```
 
 Start Skipper
 ```shell
@@ -60,7 +65,7 @@ Import Application
 Access CLI
 
 ```shell
-java -jar runtime/scdf/spring-cloud-dataflow-shell-2.11.5.jar
+deployment/local/dataflow/shell.sh
 ```
 
 List apps

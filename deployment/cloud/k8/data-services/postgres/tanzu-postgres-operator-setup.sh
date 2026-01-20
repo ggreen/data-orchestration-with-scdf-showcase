@@ -24,8 +24,8 @@ helm registry login tanzu-sql-postgres.packages.broadcom.com \
        --password=$TANZU_POSTGRES_FOR_K8_PASSWORD
 
 
-rm -rf /tmp/vmware-sql-postgres-operator
-helm pull oci://tanzu-sql-postgres.packages.broadcom.com/vmware-sql-postgres-operator --version v4.3.1 --untar --untardir /tmp
+#rm -rf /tmp/vmware-sql-postgres-operator
+helm pull oci://tanzu-sql-postgres.packages.broadcom.com/vmware-sql-postgres-operator --version v4.3.1 --untar --untardir runtime/tmp
 
 
 
@@ -41,7 +41,7 @@ kubectl create secret docker-registry regsecret \
         --docker-password=$TANZU_POSTGRES_FOR_K8_PASSWORD --namespace=tanzu-data
 
 
-helm install tanzu-postgres-operator /tmp/vmware-sql-postgres-operator/  --wait  --namespace=sql-system
+helm install tanzu-postgres-operator runtime/tmp/vmware-sql-postgres-operator/  --wait  --namespace=sql-system
 
 kubectl get serviceaccount --namespace=sql-system
 kubectl get all --selector app=postgres-operator --namespace=sql-system
@@ -53,9 +53,7 @@ kubectl api-resources --api-group=sql.tanzu.vmware.com --namespace=sql-system
 #kubectl patch storageclass tanzu-data-services -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
 
 kubectl config set-context --current --namespace=tanzu-data
-kubectl get storageclasses --namespace=tanzu-data
-
-
+#kubectl get storageclasses --namespace=tanzu-data
 #sleep 30
 #kubectl apply -f deployments/cloud/k8/dataServices/postgres/postgres.yml
 #sleep 40
