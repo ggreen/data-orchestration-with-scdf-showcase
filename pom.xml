@@ -12,6 +12,7 @@
 	<modules>
 		<module>components/account-domain</module>
 		<module>applications/batching/db_to_caching/account-batch</module>
+		<module>applications/tasks/sql-task</module>
 		<module>applications/sinks/postgres-sink</module>
 		<module>applications/processors/postgres-query-processor</module>
 		<module>applications/processors/postgres-embedding-similarity-processor</module>
