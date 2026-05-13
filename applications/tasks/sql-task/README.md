@@ -1,5 +1,23 @@
 
 
+Application Properties
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+spring.datasource.username=postgres
+spring.datasource.password=
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+db.url=jdbc:postgresql://localhost:5432/postgres
+db.username=postgres
+db.password=
+db.driverClassName=org.postgresql.Driver
+db.sql=call accounts.reset_daily_counters();
+
+logging.level.org.springframework.jdbc.core=DEBUG
+```
+
+
 Open Psql
 
 
