@@ -21,11 +21,16 @@ A pipeline in SCDF is built from **Spring Cloud Stream** and **Spring Cloud Task
 
 # Applications
 
-| Application                                                                  | Notes                                  |
-|------------------------------------------------------------------------------|----------------------------------------|
-| [account-batch](applications/batching/db_to_caching/account-batch)           | Spring Batch/Task Example              |
-| [postgres-query-processor](applications/processors/postgres-query-processor) | Postgres Based SQL Streaming Processor |
-| [postgres-sink](applications/sinks/postgres-sink)                            | Postgres Based SQL Streaming Sink      |
+| Type      | Application                                                                                                | Notes                                                                       |
+|-----------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| Task      | [sql-task](applications/tasks/sql-task)                                                                    | Execute a SQL statement from a task                                         |
+| Batch     | [account-batch](applications/batching/db_to_caching/account-batch)                                         | Spring Batch/Task Example                                                   |
+| Source    | [http-pull-source](applications/source/http-pull-source)                                                   | Pull data from an HTTP endpoint                                             |
+| Processor | [postgres-query-processor](applications/processors/postgres-query-processor)                               | Postgres Based SQL Streaming Processor                                      |
+ | Processor | [postgres-embedding-similarity-processor](applications/processors/postgres-embedding-similarity-processor) | Return documents in a Postgres Vector DB that are similar to a text payload |
+ | Processor | [split-json-array-processor](applications/processors/split-json-array-processor)                           | Splits one JSON array into individual messages                              |                             
+| Sink      | [postgres-sink](applications/sinks/postgres-sink)                                                          | Postgres Based SQL Streaming Sink                                           |
+| Sink      | [rabbit-stream-sink](applications/sinks/rabbit-stream-sink)                                                | Save data to a RabbitMQ stream                                              |
 
 
 # Labs
