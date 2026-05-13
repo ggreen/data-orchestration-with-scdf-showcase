@@ -57,3 +57,25 @@ Run application
 ```sql
 select * from accounts.account_limits;
 ```
+
+
+
+```shell script
+docker build --file=Dockerfile --tag=cloudnativedata/sql-task:0.0.1 --platform linux/amd64,linux/arm64 --rm=true .
+docker ps
+docker login
+docker push cloudnativedata/sql-task:0.0.1 
+```
+
+
+In docker (In Kubernetes)
+
+```properties
+task.sql-task=docker://cloudnativedata/sql-task:0.0.1
+```
+
+Maven (on Tanzu Platform)
+
+```properties
+task.sql-task=maven://com.github.ggreen:sql-task:0.0.1
+```

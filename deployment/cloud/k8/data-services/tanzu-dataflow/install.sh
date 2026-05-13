@@ -16,24 +16,25 @@ helm registry login tanzu-dataflow.packages.broadcom.com \
 export db_username=`kubectl get secret postgres-db-db-secret -o jsonpath='{.data.username}' | base64 --decode`
 export db_password=`kubectl get secret postgres-db-db-secret -o jsonpath='{.data.password}' | base64 --decode`
 
+echo Postgres - user $db_username password $db_password
+
 export rabbit_username="$(kubectl get secret rabbitmq-default-user -o jsonpath='{.data.username}' | base64 --decode)"
 export rabbit_password="$(kubectl get secret rabbitmq-default-user -o jsonpath='{.data.password}' | base64 --decode)"
 echo RabbitQ - user $rabbit_username password $rabbit_password
 
-echo Postgres - user $db_username password $db_password
 
 # Data Flow Server database secret
 kubectl create secret generic dataflow-server-db-secret \
   --from-literal=host=postgres-db \
   --from-literal=port=5432 \
---from-literal=username=postgres \
-  --from-literal=password=postgres \
-  --from-literal=database=postgres
-
   --from-literal=username="$db_username" \
   --from-literal=password="$db_password" \
   --from-literal=database=postgres-db
 
+
+#--from-literal=username=postgres \
+#  --from-literal=password=postgres \
+#  --from-literal=database=postgres
 
   kubectl create secret generic rabbitmq-secret \
     --from-literal=host=rabbitmq \
@@ -46,14 +47,16 @@ kubectl create secret generic dataflow-server-db-secret \
 kubectl create secret generic skipper-server-db-secret \
   --from-literal=host=postgres-db \
   --from-literal=port=5432 \
---from-literal=username=postgres \
-  --from-literal=password=postgres \
-  --from-literal=database=postgres
+  --from-literal=username="$db_username" \
+  --from-literal=password="$db_password" \
+  --from-literal=database=postgres-db
+
+
 
 
 
 helm install dataflow-release oci://tanzu-dataflow.packages.broadcom.com/dataflow \
-  --version "2.0.1" \
+  --version "2.1.0" \
   --set database.mysql.enabled=false \
   --set database.postgresql.enabled=false \
   --set externalDatabase.enabled=true \

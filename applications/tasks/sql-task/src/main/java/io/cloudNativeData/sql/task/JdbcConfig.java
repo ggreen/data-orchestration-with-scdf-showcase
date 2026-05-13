@@ -14,20 +14,14 @@ import javax.sql.DataSource;
 @EnableTask
 public class JdbcConfig {
 
-    @Bean("applicationDataSource")
-    DataSource applicationDataSource(DbProperties properties)
-    {
-        return DataSourceBuilder.create()
+
+    @Bean
+    public JdbcTemplate simpleJdbcCall(DbProperties properties) {
+        return new JdbcTemplate(DataSourceBuilder.create()
                 .driverClassName(properties.getDriverClassName())
                 .url(properties.getUrl())
                 .username(properties.getUsername())
                 .password(properties.getPassword())
-                .build();
-    }
-
-    @Bean
-    public JdbcTemplate simpleJdbcCall(@Qualifier("applicationDataSource") DataSource dataSource,
-                                         DbProperties properties) {
-        return new JdbcTemplate(dataSource);
+                .build());
     }
 }
