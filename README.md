@@ -2,7 +2,10 @@
 # Spring Cloud Data Flow (SCDF) Data Orchestration Show Case
 ## Overview
 
-[Spring Cloud Data Flow (SCDF)](https://spring.io/projects/spring-cloud-dataflow) is a **data integration and orchestration service** for composing, deploying, and managing **data pipelines**.
+[Spring Cloud Data Flow (SCDF)](https://spring.io/projects/spring-cloud-dataflow) or [Tanzu Data Flow](https://techdocs.broadcom.com/us/en/vmware-tanzu/data-solutions/tanzu-data-flow/2-1/tdf-tanzu/getting-started.html) is a **data integration and orchestration service** for composing, deploying, and managing **data pipelines**.
+
+![data-orchestration-showcase.png](docs/img/data-orchestration-showcase.png)
+
 
 It provides:
 -
