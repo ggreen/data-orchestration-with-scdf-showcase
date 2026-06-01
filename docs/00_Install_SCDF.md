@@ -1,5 +1,13 @@
 # Install SCDF
 
+
+- Clone the git repo
+```
+git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
+cd data-orchestration-with-scdf-showcase
+```
+
+
 Create podman network (if it does not exist)
 
 ```shell
@@ -25,11 +33,7 @@ wget --directory-prefix=runtime/scdf https://repo.maven.apache.org/maven2/org/sp
 
 # Start RabbitMQ
 
-- Clone the git repo
-```
-git clone https://github.com/ggreen/data-orchestration-with-scdf-showcase.git
-cd data-orchestration-with-scdf-showcase
-```
+
 
 - Run RabbitMQ (guest/guest)
 ```shell
