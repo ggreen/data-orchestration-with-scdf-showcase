@@ -1,6 +1,6 @@
 package showcase.ai.data.orchestration.scdf.processors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,11 +14,11 @@ import java.util.function.Consumer;
 @Slf4j
 public class SqlConsumer implements Consumer<String> {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper objectMapper;
     private final NamedParameterJdbcTemplate  namedParameterJdbcTemplate;
     private final String sql;
 
-    public SqlConsumer(ObjectMapper objectMapper,
+    public SqlConsumer(JsonMapper objectMapper,
                        NamedParameterJdbcTemplate namedParameterJdbcTemplate,
                        SqlConsumerProperties properties) {
         this.objectMapper = objectMapper;

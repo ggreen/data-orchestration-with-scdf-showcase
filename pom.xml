@@ -19,6 +19,7 @@
 		<module>applications/processors/split-json-array-processor</module>
 		<module>applications/sinks/rabbit-stream-sink</module>
 		<module>applications/source/http-pull-source</module>
+		<module>applications/sinks/iceberg-s3-sink</module>
 	</modules>
 	<build>
 		<pluginManagement>

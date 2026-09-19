@@ -70,7 +70,7 @@ podman run --name psql -it --rm \
     bitnami/postgresql:latest psql -h postgresml  -U postgres -d postgresml
 ```
 
-In PostgresML
+In psql connected to PostgresML
 
 ```shell
 drop schema customer cascade;

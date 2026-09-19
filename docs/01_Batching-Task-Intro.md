@@ -178,7 +178,7 @@ podman exec -it valkey valkey-cli
 Once inside the CLI:
 
 ```valkey-cli
-keys *
+keys * 
 ```
 
 3. Inspect a  value
