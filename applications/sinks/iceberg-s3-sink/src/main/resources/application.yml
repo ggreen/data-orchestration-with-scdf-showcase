@@ -1,0 +1,38 @@
+server:
+  port: 0
+spring:
+  application:
+    name: iceberg-s3-sink
+  rabbitmq:
+    username: ${TANZU_RABBITMQ_USER}
+    password: ${TANZU_RABBITMQ_PASSWORD}
+  virtual-host: /  # Optional (defaults to /)
+  cloud:
+    function:
+      definition: iceBergConsumer
+    stream:
+      function:
+        bindings:
+          iceBergConsumer-in-0: input
+          iceBergConsumer-out-0: output
+      binder:
+        connection-name-prefix: ${spring.application.name}
+iceberg:
+  schemas:
+    table-name: "users"
+    namespace:
+      # Update these properties to match the fields inside your NamespaceProperties class
+      name: "default_db"
+    fields:
+      - id: 1
+        name: "id"
+        type: "integer"
+        required: true
+      - id: 2
+        name: "name"
+        type: "string"
+        required: true
+      - id: 3
+        name: "email"
+        type: "string"
+        required: false
