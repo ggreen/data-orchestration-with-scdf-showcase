@@ -20,8 +20,15 @@
 		<aws.sdk.version>2.25.20</aws.sdk.version>
 		<hadoop.version>3.3.6</hadoop.version>
 		<parquet.version>1.13.1</parquet.version>
+		<springdoc.version>3.1.1</springdoc.version>
 	</properties>
 	<dependencies>
+		<!-- Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-api -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
 		<!-- Apache Iceberg Core Modules -->
 		<dependency>
 			<groupId>org.apache.iceberg</groupId>
