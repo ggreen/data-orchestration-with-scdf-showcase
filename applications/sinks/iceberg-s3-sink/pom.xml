@@ -21,6 +21,7 @@
 		<hadoop.version>3.3.6</hadoop.version>
 		<parquet.version>1.13.1</parquet.version>
 		<springdoc.version>3.1.1</springdoc.version>
+		<hadoop.aws.version>3.3.6</hadoop.aws.version>
 	</properties>
 	<dependencies>
 		<!-- Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-api -->
@@ -86,6 +87,11 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-aws</artifactId>
+			<version>${hadoop.aws.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.parquet</groupId>
 			<artifactId>parquet-column</artifactId>

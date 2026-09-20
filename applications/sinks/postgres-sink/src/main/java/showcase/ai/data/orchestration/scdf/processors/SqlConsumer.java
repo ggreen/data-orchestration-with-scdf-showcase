@@ -1,11 +1,11 @@
 package showcase.ai.data.orchestration.scdf.processors;
 
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import showcase.ai.data.orchestration.scdf.properties.SqlConsumerProperties;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.Map;
 import java.util.function.Consumer;

@@ -1,7 +1,5 @@
 package showcase.ai.data.orchestration.scdf.processors;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import nyla.solutions.core.patterns.creational.generator.JavaBeanGeneratorCreator;
 import nyla.solutions.core.util.JavaBean;
 import nyla.solutions.core.util.Text;
@@ -19,6 +17,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import showcase.ai.data.orchestration.scdf.data.Customer;
+import tools.jackson.databind.json.JsonMapper;
 
 import javax.sql.DataSource;
 
@@ -81,12 +80,12 @@ class SqlConsumerTest {
     }
 
     @Test
-    void accept() throws JsonProcessingException {
+    void accept() {
         String payload = """
                 { "email" : "${email}" ,  "firstName" : "${firstName}" }
                 """;
 
-        payload = Text.format(payload, JavaBean.toMap(customer));
+        payload = Text.format().formatMap(payload, JavaBean.toMap(customer));
         subject.accept(payload);
 
         String query = """

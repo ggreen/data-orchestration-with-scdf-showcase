@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
@@ -31,17 +30,45 @@ import java.util.List;
 @Slf4j
 public class IcebergConfig {
 
-    @Value("${app.wareHouse.path:./runtime/iceberg_warehouse}")
-    private String wareHousePath;
+    @Value("${iceberg.s3.warehouse.path:s3a://iceberg-bucket/warehouse}")
+    private String s3WarehousePath;
+
+    @Value("${iceberg.s3.connection.url:http://localhost:9000}")
+    private String connectionUrl;
+
+    @Value("${iceberg.s3.connection.username:admin}")
+    private String username;
+
+    @Value("${iceberg.s3.connection.password:password123}")
+    private String password;
+
+    @Value("${iceberg.s3.connection.sslEnabled:false}")
+    private String sslEnabled;
 
     @Bean
     HadoopCatalog  hadoopCatalog()
     {
-        var warehousePath = new File(wareHousePath).getAbsolutePath();
         var conf = new org.apache.hadoop.conf.Configuration();
 
-        // 2. Initialize Hadoop Catalog pointing to local filesystem
-        return new HadoopCatalog(conf, warehousePath);
+        // Target MinIO / Local S3 endpoint
+
+        conf.set("fs.s3a.endpoint", connectionUrl);
+        conf.set("fs.s3a.access.key", username);
+        conf.set("fs.s3a.secret.key", password);
+        conf.set("fs.s3a.threads.keepalivetime","60");
+
+        // Essential S3A settings for MinIO / Local S3
+        conf.set("fs.s3a.path.style.access", "true"); // Required for MinIO
+        conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
+        conf.set("fs.s3a.connection.ssl.enabled", sslEnabled); // Disable SSL for local HTTP
+        conf.set("fs.s3a.connection.timeout", "30000");         // 30,000 ms instead of "30s"
+        conf.set("fs.s3a.connection.establish.timeout", "30000"); // 30,000 ms instead of "30s"
+
+        // FIX: Force Hadoop S3A to use AWS SDK v1 simple credentials provider
+        conf.set("fs.s3a.aws.credentials.provider", "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider");
+
+        // Initialize Hadoop Catalog pointing to S3
+        return new HadoopCatalog(conf, s3WarehousePath);
     }
 
     @Bean
