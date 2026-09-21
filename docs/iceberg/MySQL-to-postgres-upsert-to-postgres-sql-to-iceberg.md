@@ -173,7 +173,7 @@ Copy Financial pipeline configuration files:
 jdbc:mariadb://localhost:3306/mysql
 
 ```shell
-mysql-to-iceberg=jdbc --update="update trade_settlement set processed_flg = 'Y' where processed_flg IS NULL;" --query="SELECT *  FROM trade_settlement  WHERE processed_flg <> 'Y'     OR processed_flg IS NULL;" --password=root  --username=root --url="jdbc:mariadb://localhost:3306/mysql?allowPublicKeyRetrieval=true&useSSL=false" --spring.sql.init.platform=mysql  --fixed-delay=1000 | log
+mysql-to-iceberg=jdbc --update="update trade_settlement set processed_flg = 'Y' where processed_flg IS NULL;" --query="SELECT *  FROM trade_settlement  WHERE processed_flg <> 'Y'     OR processed_flg IS NULL;" --password=root  --username=root --url="jdbc:mariadb://localhost:3306/mysql?allowPublicKeyRetrieval=true&useSSL=false" --spring.sql.init.platform=mysql  --fixed-delay=1000 | iceberg-s3-sink --server.port=9099 --spring.config.import=optional:file:/Users/Projects/solutions/Spring/data-flow/dev/data-orchestration-with-scdf-showcase/applications/sinks/iceberg-s3-sink/src/main/resources/application-finanicial-settlement.yml
 ```
 
 ```shell
@@ -185,7 +185,7 @@ cp applications/sinks/iceberg-s3-sink/src/main/resources/iceberg-minio-sink.yml 
 In SCDF
 Create Stream
 ```shell
-financial-settlement-pipeline=jdbc-source | postgres-upsert | iceberg-s3-sink
+financial-settlement-pipeline=jdbc-source | postgres-upsert | iceberg-s3-sink --spring.config.import=optional:file:/Users/Projects/solutions/Spring/data-flow/dev/data-orchestration-with-scdf-showcase/applications/sinks/iceberg-s3-sink/src/main/resources/application-finanicial-settlement.yml
 ```
 
 Deploy Stream Configuration

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iceberg S3 Sink Application</title>
+    <style>
+        :root {
+            --primary: #0070f3;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #212529;
+            --border: #e9ecef;
+            --code-bg: #1e1e1e;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        .btn-swagger {
+            display: inline-block;
+            background-color: #85ea2d;
+            color: #173600;
+            font-weight: bold;
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .btn-swagger:hover {
+            background-color: #71cb24;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+        pre {
+            background-color: var(--code-bg);
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--bg);
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>Apache Iceberg S3 Sink</h1>
+            <p style="margin:0; color: #6c757d;">Spring Cloud Stream consumer consuming events into Iceberg tables on S3.</p>
+        </div>
+        <!-- Swagger-UI Link -->
+        <a href="/swagger-ui.html" class="btn-swagger" target="_blank">Open Swagger UI</a>
+    </div>
+
+    <div class="card">
+        <h2>Quick Links</h2>
+        <ul>
+            <li><strong>Swagger UI Documentation:</strong> <a href="/swagger-ui.html">/swagger-ui.html</a></li>
+            <li><strong>OpenAPI Specs:</strong> <a href="/v3/api-docs">/v3/api-docs</a></li>
+            <li><strong>Application Health:</strong> <a href="/actuator/health">/actuator/health</a> (if Actuator is enabled)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Configuration Overview</h2>
+        <p>The application is configured using Spring Cloud Stream with RabbitMQ as the message broker. Below is an overview of the key configuration blocks defined in <code>application.yml</code>:</p>
+
+        <h3>1. Server & Spring Boot Settings</h3>
+        <ul>
+            <li><code>server.port</code>: Application port (Default: <code>9090</code>).</li>
+            <li><code>spring.application.name</code>: Sets service name (<code>iceberg-s3-sink</code>).</li>
+        </ul>
+
+        <h3>2. RabbitMQ Connection</h3>
+        <p>Uses environment variables for credentials to allow secure deployment via Tanzu / Kubernetes:</p>
+        <ul>
+            <li><code>spring.rabbitmq.username</code>: Set via <code>${TANZU_RABBITMQ_USER}</code></li>
+            <li><code>spring.rabbitmq.password</code>: Set via <code>${TANZU_RABBITMQ_PASSWORD}</code></li>
+            <li><code>spring.rabbitmq.virtual-host</code>: Configured to <code>/</code></li>
+        </ul>
+
+        <h3>3. Spring Cloud Stream Functions</h3>
+        <p>Maps the functional consumer bean to streaming channels:</p>
+        <ul>
+            <li><code>spring.cloud.function.definition</code>: Identifies <code>iceBergConsumer</code> as the target functional bean.</li>
+            <li><code>bindings.iceBergConsumer-in-0</code>: Inbound message channel mapped to standard <code>input</code> destination.</li>
+        </ul>
+
+        <h3>4. Iceberg Schema Properties</h3>
+        <p>Defines the destination table details and dataset schema mapping:</p>
+        <table>
+            <thead>
+            <tr>
+                <th>Property</th>
+                <th>Value in Example</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><code>iceberg.schemas.table-name</code></td>
+                <td><code>customers</code></td>
+                <td>Target Iceberg table name on S3.</td>
+            </tr>
+            <tr>
+                <td><code>iceberg.schemas.namespace.name</code></td>
+                <td><code>default_db</code></td>
+                <td>Target database / namespace.</td>
+            </tr>
+            <tr>
+                <td><code>iceberg.schemas.fields</code></td>
+                <td>Array of fields</td>
+                <td>Defines field IDs, names, data types, and nullability flags.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Example <code>application.yml</code> Reference</h2>
+        <pre><code>server:
+  port: 9090
+spring:
+  application:
+    name: iceberg-s3-sink
+  rabbitmq:
+    username: ${TANZU_RABBITMQ_USER}
+    password: ${TANZU_RABBITMQ_PASSWORD}
+  virtual-host: /  # Optional (defaults to /)
+  cloud:
+    function:
+      definition: iceBergConsumer
+    stream:
+      function:
+        bindings:
+          iceBergConsumer-in-0: input
+          iceBergConsumer-out-0: output
+      binder:
+        connection-name-prefix: ${spring.application.name}
+iceberg:
+  schemas:
+    table-name: "customers"
+    namespace:
+      name: "default_db"
+    fields:
+      - id: 1
+        name: "id"
+        type: "integer"
+        required: true
+      - id: 2
+        name: "name"
+        type: "string"
+        required: true
+      - id: 3
+        name: "email"
+        type: "string"
+        required: false</code></pre>
+    </div>
+</div>
+
+</body>
+</html>
