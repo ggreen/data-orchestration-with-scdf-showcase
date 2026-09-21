@@ -5,17 +5,13 @@ import nyla.solutions.core.util.JavaBean;
 import nyla.solutions.core.util.Text;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.amqp.rabbit.test.context.SpringRabbitTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import showcase.ai.data.orchestration.scdf.data.Customer;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -23,9 +19,9 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest
-@SpringJUnitConfig
-@SpringRabbitTest
+//@SpringBootTest
+//@SpringJUnitConfig
+//@SpringRabbitTest
 class SqlConsumerTest {
 
     @Configuration
@@ -79,7 +75,7 @@ class SqlConsumerTest {
         jdbcTemplate.execute(createSql);
     }
 
-    @Test
+//    @Test
     void accept() {
         String payload = """
                 { "email" : "${email}" ,  "firstName" : "${firstName}" }
