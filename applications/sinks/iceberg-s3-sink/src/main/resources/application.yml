@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 9090
 spring:
   application:
     name: iceberg-s3-sink
@@ -19,7 +19,7 @@ spring:
         connection-name-prefix: ${spring.application.name}
 iceberg:
   schemas:
-    table-name: "users"
+    table-name: "customers"
     namespace:
       # Update these properties to match the fields inside your NamespaceProperties class
       name: "default_db"

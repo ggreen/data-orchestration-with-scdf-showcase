@@ -1,6 +1,6 @@
 package io.cloudNativeData.iceberg.functions;
 
-import io.cloudNativeData.iceberg.repository.IcebergTemplate;
+import io.cloudNativeData.iceberg.service.IceBergService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,12 +13,10 @@ import java.util.function.Consumer;
 @Slf4j
 public class IceBergConsumer implements Consumer<Map<String, Object>> {
 
-    private final IcebergTemplate icebergTemplate;
+    private final IceBergService service;
 
     @Override
     public void accept(Map<String, Object> map) {
-
-        log.info("Iceberg consumer received data: {}", map);
-        icebergTemplate.writeRecord(map);
+        service.save(map);
     }
 }

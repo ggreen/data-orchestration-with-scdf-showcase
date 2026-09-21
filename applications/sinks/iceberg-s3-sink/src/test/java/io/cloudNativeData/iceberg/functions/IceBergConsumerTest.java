@@ -1,6 +1,6 @@
 package io.cloudNativeData.iceberg.functions;
 
-import io.cloudNativeData.iceberg.repository.IcebergTemplate;
+import io.cloudNativeData.iceberg.service.IceBergService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,11 +20,11 @@ class IceBergConsumerTest {
     private Map<String, Object> map;
 
     @Mock
-    private IcebergTemplate icebergTemplate;
+    private IceBergService service;
 
     @BeforeEach
     void setUp() {
-        subject = new IceBergConsumer(icebergTemplate);
+        subject = new IceBergConsumer(service);
     }
 
     @Test
@@ -33,7 +32,7 @@ class IceBergConsumerTest {
 
         subject.accept(map);
 
-        verify(icebergTemplate).writeRecord(ArgumentMatchers.<Map<String,Object>>any());
+        verify(service).save(ArgumentMatchers.<Map<String,Object>>any());
 
     }
 }
