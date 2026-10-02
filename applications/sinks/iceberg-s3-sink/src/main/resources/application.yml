@@ -3,10 +3,10 @@ server:
 spring:
   application:
     name: iceberg-s3-sink
-  rabbitmq:
-    username: ${TANZU_RABBITMQ_USER}
-    password: ${TANZU_RABBITMQ_PASSWORD}
-  virtual-host: /  # Optional (defaults to /)
+#  rabbitmq:
+#    username: ${TANZU_RABBITMQ_USER}
+#    password: ${TANZU_RABBITMQ_PASSWORD}
+#    virtual-host: /  # Optional (defaults to /)
   cloud:
     function:
       definition: iceBergConsumer
