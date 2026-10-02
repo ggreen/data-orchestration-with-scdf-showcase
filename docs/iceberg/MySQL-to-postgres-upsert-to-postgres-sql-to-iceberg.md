@@ -156,12 +156,15 @@ Add Applications
 Create stream
 
 ```shell
-mysql-to-iceberg=jdbc --update="update trade_settlement set processed_flg = 'Y' where processed_flg IS NULL;" --query="SELECT *  FROM trade_settlement  WHERE processed_flg <> 'Y'     OR processed_flg IS NULL;" --password=root  --username=root --url="jdbc:mariadb://localhost:3306/mysql?allowPublicKeyRetrieval=true&useSSL=false" --spring.sql.init.platform=mysql  --fixed-delay=1000 | postgres-query --query.processor.sql="SELECT :trade_id as trade_id, :cusip as cusip, :shares as shares, :settlement_amount as settlement_amount, lower(:participant_id) as participant_id, lower(:settlement_status) as settlement_status, :last_updated as last_updated,:processed_flg as processed_flg;" --spring.datasource.username=postgres --spring.datasource.url="jdbc:postgresql://localhost:5432/postgres" | iceberg-s3-sink --server.port=9099 --spring.config.import="optional:file:/Users/Projects/solutions/Spring/data-flow/dev/data-orchestration-with-scdf-showcase/applications/sinks/iceberg-s3-sink/src/main/resources/application-finanicial-settlement.yml"
+mysql-to-iceberg=jdbc --update="update trade_settlement set processed_flg = 'Y';" --query="SELECT *  FROM trade_settlement  WHERE processed_flg <> 'Y'     OR processed_flg IS NULL;" --password=root  --username=root --url="jdbc:mariadb://localhost:3306/mysql?allowPublicKeyRetrieval=true&useSSL=false" --spring.sql.init.platform=mysql  --fixed-delay=1000 | postgres-query --query.processor.sql="SELECT :trade_id as trade_id, :cusip as cusip, :shares as shares, :settlement_amount as settlement_amount, lower(:participant_id) as participant_id, lower(:settlement_status) as settlement_status, :last_updated as last_updated,:processed_flg as processed_flg;" --spring.datasource.username=postgres --spring.datasource.url="jdbc:postgresql://localhost:5432/postgres" | iceberg-s3-sink --server.port=9099 --spring.config.import="optional:file:/Users/Projects/solutions/Spring/data-flow/dev/data-orchestration-with-scdf-showcase/applications/sinks/iceberg-s3-sink/src/main/resources/application-finanicial-settlement.yml"
 ```
 
 
 Send existing records
 
+```sql
+select * from trade_settlement;
+```
 ```sql
 update trade_settlement set processed_flg = 'N';
 ```
@@ -170,16 +173,28 @@ update trade_settlement set processed_flg = 'N';
 Testing Data Pipeline Flow
 1. Insert new Financial trade in MySQL
 ```SQL
-INSERT INTO financial_clearing.trade_settlement (trade_id, cusip, participant_id, shares, settlement_amount, settlement_status) 
-VALUES ('T-1003', '30231G102', 'Financial-9901', 8500, 1420000.00, 'PENDING');
+INSERT INTO trade_settlement (trade_id, cusip, participant_id, shares, settlement_amount, settlement_status) VALUES
+('T-1004', '594918104', 'Issuer-1042', 12000, 4920000.50, 'SETTLED'),
+('T-1005', '037833100', 'Issuer-4421', 3500, 785750.00, 'PENDING'),
+('T-1006', '023135106', 'Issuer-8812', 15000, 2175000.00, 'FAILED'),
+('T-1007', '88160R101', 'Issuer-3305', 600, 240000.00, 'SETTLED'),
+('T-1008', '459200101', 'Issuer-9901', 4500, 630000.75, 'PENDING'),
+('T-1009', '68389X105', 'Issuer-5510', 25000, 3125000.00, 'SETTLED'),
+('T-1010', '191216100', 'Issuer-1204', 1800, 342000.00, 'CANCELLED'),
+('T-1011', '78462F103', 'Issuer-8812', 9200, 1840000.25, 'PENDING'),
+   ('T-1012', '254687106', 'Issuer-6639', 500, 72500.00, 'SETTLED'),
+('T-1013', '931142103', 'Issuer-4421', 11000, 1980000.00, 'FAILED');
 ```
 
-2. Verify Upsert in Postgres
+2. Verify processed_flg = Y
+
 ```SQL
-SELECT * FROM financial.settlement_positions WHERE trade_id = 'T-1003';
+SELECT * FROM trade_settlement;
 ```
 
 3. Verify Lakehouse Record in Iceberg / MinIO
+
+
 
 4. Check Iceberg metadata generated inside MinIO container:
 
