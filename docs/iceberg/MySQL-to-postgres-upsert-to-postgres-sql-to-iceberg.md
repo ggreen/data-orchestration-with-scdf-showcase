@@ -31,6 +31,11 @@ Start MySQL for Financial Trade Settlement records:
 ./deployment/local/mysql/start-mysql.sh 
 ```
 
+Start Valkey
+
+```shell
+deployment/local/podman/valkey/start.sh
+```
 Start Postgres for trade position updates/querys:
 
 ```shell
@@ -55,7 +60,7 @@ Financial Database Schema Setup
 Connect to MySQL container:
 
 ```shell
-podman exec -it mysql mysql -uroot -proot mysql
+./deployment/local/podman/valkey/mysql-cli.sh
 ```
 
 Create schema and insert sample Financial trade settlement data:
@@ -115,6 +120,18 @@ RootPass: password123
 
 4. Register Apps in Data Flow
 
+
+Register Valkey Sink in Data Flow
+
+
+Use the following properties
+
+```properties
+sink.valkey-sink=maven://com.github.ggreen:valkey-sink:0.0.1
+sink.valkey-sink.bootVersion=3
+```
+
+
 Generate Register Script for jdbc Source (MySQL Reader):
 Register JDBC Source:
 
@@ -153,11 +170,17 @@ Add Applications
 ![img.png](img.png)
 
 
-Create stream
-
 ```shell
 mysql-to-iceberg=jdbc --update="update trade_settlement set processed_flg = 'Y';" --query="SELECT *  FROM trade_settlement  WHERE processed_flg <> 'Y'     OR processed_flg IS NULL;" --password=root  --username=root --url="jdbc:mariadb://localhost:3306/mysql?allowPublicKeyRetrieval=true&useSSL=false" --spring.sql.init.platform=mysql  --fixed-delay=1000 | postgres-query --query.processor.sql="SELECT :trade_id as trade_id, :cusip as cusip, :shares as shares, :settlement_amount as settlement_amount, lower(:participant_id) as participant_id, lower(:settlement_status) as settlement_status, :last_updated as last_updated,:processed_flg as processed_flg;" --spring.datasource.username=postgres --spring.datasource.url="jdbc:postgresql://localhost:5432/postgres" | iceberg-s3-sink --server.port=9099 --spring.config.import="optional:file:/Users/Projects/solutions/Spring/data-flow/dev/data-orchestration-with-scdf-showcase/applications/sinks/iceberg-s3-sink/src/main/resources/application-finanicial-settlement.yml"
 ```
+
+
+TAP to valkey
+
+```shell
+mysql-to-valkey=:mysql-to-iceberg.postgres-query > valkey-sink --valKey.consumer.key.prefix="trade_settlement-" --valKey.consumer.key.field="trade_id"
+```
+
 
 
 Send existing records

@@ -1,0 +1,1 @@
+podman exec -it mysql mysql -uroot -proot mysql
